@@ -1,0 +1,27 @@
+# PACK.yaml — provenance + licence metadata for a reference pack.
+# Mandatory (checked by tools/validate_pack.py): slug, title, publisher, license,
+# license_tier, commercial_use. license_tier must be 1, 2, or 3 (never Excluded).
+# No source-material download URL is stored or published — attribution is textual.
+
+slug: <slug>                                  # = folder name, kebab-case
+title: "<exact source title>"
+publisher: "<author / publisher / SDO>"       # carries the attribution
+source_version: "<edition / revision / date>"
+license: "<exact source licence name>"        # e.g. "CC BY-NC-SA 3.0" / "Public Domain (US Gov)"
+license_tier: <1|2|3>                          # 1 public domain, 2 open licence, 3 caution
+commercial_use: <true|false>                   # false if NC
+share_alike: <true|false>                      # true if SA — pack content inherits the licence
+attribution_required: <true|false>
+build:
+  method: "reference-skill: vendored book-to-skill extraction + offset-mapped chapter synthesis"
+  source_pages: 0
+  chapters: 0
+  built_on: "<YYYY-MM-DD>"
+notes: >
+  How the source licence's conditions (attribution / non-commercial / share-alike /
+  trademark) are carried forward. Synthesised reference notes only; no long verbatim
+  passages (verified with tools/check_overlap.py). For multi-source packs, record
+  per-source provenance here.
+
+# Signpost packs (citation-only, Excluded sources) add:  kind: signpost
+# and omit chapters/ + a source LICENSE (the signpost text is original/MIT).

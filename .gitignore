@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Extraction work products (regenerated; never committed)
+book_skill_work/
+**/full_text.txt
+**/metadata.json
+outline.json
+
+# OS / editor
+.DS_Store
+Thumbs.db

@@ -1,0 +1,34 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "reference-skill"
+version = "0.1.0"
+description = "Convert vetted authoritative sources into licence-clean, citable knowledge packs (a fork of book-to-skill)."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+
+[project.scripts]
+reference-skill-extract = "book_to_skill.cli:main"
+
+[project.optional-dependencies]
+epub = ["ebooklib", "beautifulsoup4"]
+pdf = ["PyPDF2", "pdfminer.six"]
+docx = ["python-docx"]
+rtf = ["striprtf"]
+technical = ["docling"]
+all = ["ebooklib", "beautifulsoup4", "PyPDF2", "pdfminer.six", "python-docx", "striprtf", "docling"]
+
+# The tools/ (vet_source, check_overlap, outline, validate_pack, build_pack,
+# pack_eval) are pure stdlib — no install needed; run them directly.
+
+[tool.ruff]
+target-version = "py39"
+
+[tool.ruff.lint]
+select = ["E9", "F"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["book_to_skill"]
