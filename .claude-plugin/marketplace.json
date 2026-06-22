@@ -1,0 +1,14 @@
+{
+  "name": "jgs-reference-skill",
+  "owner": {
+    "name": "JG Systems Consulting Ltd.",
+    "url": "https://github.com/jgsystemsconsulting"
+  },
+  "plugins": [
+    {
+      "name": "jgs-reference-skill",
+      "source": "./",
+      "description": "Convert vetted authoritative sources into licence-clean, citable knowledge packs."
+    }
+  ]
+}

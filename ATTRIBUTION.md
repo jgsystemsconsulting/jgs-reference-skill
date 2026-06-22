@@ -1,6 +1,8 @@
+<!-- Copyright (c) 2026 JG Systems Consulting Ltd. — MIT License (see LICENSE). SPDX-License-Identifier: MIT -->
+
 # Attribution
 
-`reference-skill` is a fork of **[book-to-skill](https://github.com/virgiliojr94/book-to-skill)**
+`jgs-reference-skill` is a fork of **[book-to-skill](https://github.com/virgiliojr94/book-to-skill)**
 by **virgiliojr94**, used under the MIT License (© 2025 virgiliojr94).
 
 ## What is reused verbatim
@@ -13,9 +15,9 @@ The text-extraction engine is vendored unchanged so the proven, boring part
 
 Their original MIT notice is retained at `book_to_skill/LICENSE.upstream.md`.
 
-## What reference-skill adds (the improvements)
+## What jgs-reference-skill adds (the improvements)
 
-book-to-skill produces **personal study skills** from books. reference-skill
+book-to-skill produces **personal study skills** from books. jgs-reference-skill
 produces **publishable, licence-clean reference packs** from authoritative sources,
 adding what book-to-skill has none of:
 

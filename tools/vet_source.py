@@ -2,10 +2,10 @@
 # Copyright (c) 2026 JG Systems Consulting Ltd. — MIT License (see ../LICENSE).
 # SPDX-License-Identifier: MIT
 """
-vet_source.py — licence-vetting GATE for reference-skill (improvement theme 1).
+vet_source.py — licence-vetting GATE for jgs-reference-skill (improvement theme 1).
 
 book-to-skill has no licence awareness: it will happily transform a paywalled
-ISO standard into a published skill. reference-skill refuses to. This script
+ISO standard into a published skill. jgs-reference-skill refuses to. This script
 classifies a source into Tier 1 / 2 / 3 / Excluded *before* any extraction, and
 hard-stops (exit 2) on Excluded sources — routing them to signpost mode instead.
 

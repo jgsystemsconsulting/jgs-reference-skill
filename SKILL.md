@@ -1,22 +1,45 @@
 ---
-name: reference-skill
+name: jgs-reference-skill
 description: "Converts an authoritative reference document (standard, handbook, guidebook, framework — PDF/EPUB/DOCX/HTML/MD/RTF) into a licence-clean, citable knowledge pack: a progressive-disclosure agent skill with SKILL.md + chapters + glossary + patterns + cheatsheet, plus PACK.yaml provenance and a per-pack LICENSE. Use when you want a trustworthy reference oracle over a vetted open source — not study notes. Vets the source's licence FIRST and refuses to package non-redistributable (paywalled/all-rights-reserved) sources, routing them to a citation-only signpost instead."
 ---
 
 <!--
+Copyright (c) 2026 JG Systems Consulting Ltd. — MIT License (see LICENSE). SPDX-License-Identifier: MIT
+
 Fork of book-to-skill (MIT, © 2025 virgiliojr94) — extraction engine vendored
-verbatim in book_to_skill/. reference-skill repositions it from "personal study
+verbatim in book_to_skill/. jgs-reference-skill repositions it from "personal study
 skills" to "publishable, licence-clean reference packs", and adds: a licence-vet
 gate, provenance/LICENSE emission, deterministic outlining, verbatim-overlap
 detection, index-truth eval, and signpost mode. See ATTRIBUTION.md.
 Tool paths below are relative to this skill's own directory.
 -->
 
-# Reference-Skill — authoritative source → citable knowledge pack
+# jgs-reference-skill — authoritative source → citable knowledge pack
 
 Turn a vetted reference document into a **reference oracle**: an agent skill that
 answers "what does this body of knowledge say about X?" from the actual source,
 with provenance and licence baked in — never a hallucination, never a photocopy.
+
+## When to use
+
+Use this skill when the user wants to:
+- **build a reference pack** from a standard, handbook, guidebook, or framework
+  ("turn this PDF into a skill", "make a pack from the NASA SE Handbook");
+- **vet a source's licence** before packaging it ("can I redistribute this?");
+- **add a new source** to an existing pack, or produce a **signpost** for a source
+  that is authoritative but not redistributable (ISO/IEC/IEEE, OMG, INCOSE…).
+
+Do **not** use it for personal study notes over a copyrighted book — that is
+[book-to-skill](https://github.com/virgiliojr94/book-to-skill)'s job. This skill is
+for *publishable, licence-clean* reference oracles.
+
+## Prerequisites
+
+- **Python ≥ 3.9** on `PATH` (`python3` or `python`).
+- Optional extraction dependencies, installed on demand by `scripts/extract.py`
+  (`pip install -e ".[all]"` for every format; plain text/Markdown/HTML need none).
+- The source's **title, publisher, and licence** — required for vetting (Step 1) and
+  provenance. Ask the user if not provided.
 
 ## Philosophy
 
@@ -54,7 +77,7 @@ The tool paths assume this skill lives at `<SKILL_DIR>`. Run Python as `python3`
 ## Step 0 — Inputs
 
 If no path is given, stop:
-> "reference-skill needs a source document path, folder, or glob, plus the
+> "jgs-reference-skill needs a source document path, folder, or glob, plus the
 > source's publisher and licence so it can be vetted."
 
 Identify: `INPUT_PATHS`, optional `SLUG`, and the source's **title / publisher /

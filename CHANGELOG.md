@@ -1,3 +1,5 @@
+<!-- Copyright (c) 2026 JG Systems Consulting Ltd. — MIT License (see LICENSE). SPDX-License-Identifier: MIT -->
+
 # Changelog
 
 ## 0.1.0 — 2026-06-22

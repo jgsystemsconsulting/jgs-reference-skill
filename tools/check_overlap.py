@@ -5,7 +5,7 @@
 check_overlap.py — verbatim-overlap detector (improvement themes 1 + 2).
 
 book-to-skill *says* "never copy raw book text" as a rule but never verifies it.
-reference-skill verifies it mechanically: it n-gram-shingles the source text and
+jgs-reference-skill verifies it mechanically: it n-gram-shingles the source text and
 flags any run of >= N consecutive words in the generated pack that appears
 verbatim in the source. This automates the kind of by-hand fix where a verbatim
 source phrase had to be paraphrased before publishing.

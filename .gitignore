@@ -14,3 +14,6 @@ outline.json
 # OS / editor
 .DS_Store
 Thumbs.db
+
+# Playwright MCP visual-QA artifacts (untracked)
+.playwright-mcp/

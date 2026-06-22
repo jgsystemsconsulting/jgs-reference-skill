@@ -43,7 +43,7 @@ commercial_use: {commercial_use}
 share_alike: {share_alike}
 attribution_required: {attribution_required}
 build:
-  method: "reference-skill: vendored book-to-skill extraction + offset-mapped chapter synthesis"
+  method: "jgs-reference-skill: vendored book-to-skill extraction + offset-mapped chapter synthesis"
   source_pages: 0
   chapters: 0
   built_on: "TODO"

@@ -1,0 +1,12 @@
+{
+  "name": "jgs-reference-skill",
+  "description": "Convert vetted authoritative sources (standards, handbooks, guidebooks) into licence-clean, citable knowledge packs — vets the source's licence first and refuses non-redistributable sources.",
+  "version": "0.1.0",
+  "author": {
+    "name": "JG Systems Consulting Ltd.",
+    "email": "jason.gower@jgsystemsconsulting.com"
+  },
+  "homepage": "https://jgsystemsconsulting.github.io/jgs-reference-skill/",
+  "repository": "https://github.com/jgsystemsconsulting/jgs-reference-skill",
+  "license": "MIT"
+}

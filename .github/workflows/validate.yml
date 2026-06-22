@@ -1,0 +1,82 @@
+name: validate
+
+# Self-contained content-integrity gate. Inline bash + python3 stdlib only.
+# Does NOT execute any checked-out repository code (reads files only) and runs on
+# pull_request (not pull_request_target), so a fork PR cannot gain write access.
+
+on:
+  push:
+  pull_request:
+
+permissions: read-all
+
+jobs:
+  integrity:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Content integrity check
+        run: |
+          set -euo pipefail
+          # Sentinels assembled from parts so this workflow never self-matches.
+          P1="CONFIDENTIAL"
+          P2="BEGIN $(printf 'PRIVATE')  KEY"
+          P3="BEGIN $(printf 'OPENSSH PRIVATE') KEY"
+          pat="$P1|BEGIN [A-Z]* ?PRIVATE KEY"
+          if grep -RInE "$pat" --exclude-dir=.git --exclude-dir=.github . ; then
+            echo "::error::leak sentinel found in shippable content"
+            exit 1
+          fi
+          echo "OK: no leak sentinels."
+
+      - name: SKILL.md frontmatter lint
+        run: |
+          python3 - <<'PY'
+          import re, sys, pathlib
+          fail = False
+          skills = list(pathlib.Path('.').rglob('SKILL.md'))
+          if not skills:
+              print('::error::no SKILL.md found'); sys.exit(1)
+          for p in skills:
+              if 'book_to_skill' in p.parts:  # vendored engine has no SKILL.md anyway
+                  continue
+              t = p.read_text(encoding='utf-8')
+              m = re.match(r'^---\s*\n(.*?)\n---\s*\n', t, re.S)
+              if not m:
+                  print(f'::error::{p}: missing YAML frontmatter'); fail = True; continue
+              fm = m.group(1)
+              if not re.search(r'^name:\s*\S', fm, re.M):
+                  print(f'::error::{p}: frontmatter missing name'); fail = True
+              if not re.search(r'^description:\s*\S', fm, re.M):
+                  print(f'::error::{p}: frontmatter missing description'); fail = True
+          print('OK: SKILL.md frontmatter valid.' if not fail else 'frontmatter lint failed')
+          sys.exit(1 if fail else 0)
+          PY
+
+      - name: Version consistency (RR-S-11)
+        run: |
+          python3 - <<'PY'
+          import re, json, sys, pathlib
+          def changelog_top():
+              t = pathlib.Path('CHANGELOG.md').read_text(encoding='utf-8')
+              m = re.search(r'^##\s*\[?v?(\d+\.\d+\.\d+)', t, re.M)
+              return m.group(1) if m else None
+          def release_info():
+              t = pathlib.Path('RELEASE-INFO.txt').read_text(encoding='utf-8')
+              m = re.search(r'^Version:\s*(\d+\.\d+\.\d+)', t, re.M)
+              return m.group(1) if m else None
+          def pyproject():
+              t = pathlib.Path('pyproject.toml').read_text(encoding='utf-8')
+              m = re.search(r'^version\s*=\s*"(\d+\.\d+\.\d+)"', t, re.M)
+              return m.group(1) if m else None
+          def plugin():
+              return json.loads(pathlib.Path('.claude-plugin/plugin.json').read_text(encoding='utf-8')).get('version')
+          vals = {'CHANGELOG': changelog_top(), 'RELEASE-INFO': release_info(),
+                  'pyproject': pyproject(), 'plugin.json': plugin()}
+          print(vals)
+          uniq = set(v for v in vals.values() if v)
+          if None in vals.values() or len(uniq) != 1:
+              print('::error::version mismatch across sources'); sys.exit(1)
+          print(f'OK: all versions agree at {uniq.pop()}.')
+          PY

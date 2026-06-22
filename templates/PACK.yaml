@@ -1,3 +1,4 @@
+# Copyright (c) 2026 JG Systems Consulting Ltd. — MIT License (see ../LICENSE). SPDX-License-Identifier: MIT
 # PACK.yaml — provenance + licence metadata for a reference pack.
 # Mandatory (checked by tools/validate_pack.py): slug, title, publisher, license,
 # license_tier, commercial_use. license_tier must be 1, 2, or 3 (never Excluded).
@@ -13,7 +14,7 @@ commercial_use: <true|false>                   # false if NC
 share_alike: <true|false>                      # true if SA — pack content inherits the licence
 attribution_required: <true|false>
 build:
-  method: "reference-skill: vendored book-to-skill extraction + offset-mapped chapter synthesis"
+  method: "jgs-reference-skill: vendored book-to-skill extraction + offset-mapped chapter synthesis"
   source_pages: 0
   chapters: 0
   built_on: "<YYYY-MM-DD>"

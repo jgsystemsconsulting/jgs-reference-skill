@@ -1,4 +1,11 @@
-# reference-skill
+<!-- Copyright (c) 2026 JG Systems Consulting Ltd. — MIT License (see LICENSE). SPDX-License-Identifier: MIT -->
+
+# jgs-reference-skill
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Version](https://img.shields.io/badge/version-0.1.0-informational.svg)](CHANGELOG.md)
+[![Skills](https://img.shields.io/badge/skills-1-informational.svg)](SKILL.md)
+[![Tested with Claude Code](https://img.shields.io/badge/tested%20with-Claude%20Code-6e56cf.svg)](https://claude.com/claude-code)
 
 **Turn a vetted authoritative source — a standard, handbook, guidebook, or
 framework — into a licence-clean, citable knowledge pack your agent loads on
@@ -10,11 +17,11 @@ demand.** A fork of [book-to-skill](https://github.com/virgiliojr94/book-to-skil
 book-to-skill turns a book into a study skill. It has no notion of who owns the
 source, whether you may redistribute it, or whether the skill quotes the original
 verbatim. For **published** reference packs over authoritative sources, those are
-the whole game. reference-skill keeps book-to-skill's proven output shape and adds
+the whole game. jgs-reference-skill keeps book-to-skill's proven output shape and adds
 the provenance, licence, and verification rigor — the things you otherwise do by
 hand every time.
 
-| | book-to-skill | reference-skill |
+| | book-to-skill | jgs-reference-skill |
 |---|---|---|
 | Target | personal study notes | publishable reference oracle |
 | Licence awareness | none | **vet gate**: Tier 1/2/3/Excluded, refuses non-redistributable |
@@ -26,14 +33,47 @@ hand every time.
 
 ## Pipeline
 
-```
-vet_source ──▶ extract ──▶ outline ──▶ build_pack ──▶ generate ──▶ verify
- (Tier?)       (engine)    (offsets)   (provenance)   (chapters)   overlap+validate+eval
-   │
-   └─ Excluded ─▶ signpost (cite-only)
+```mermaid
+flowchart LR
+  V["vet_source<br/>Tier?"] --> E["extract<br/>engine"]
+  E --> O["outline<br/>offsets"]
+  O --> B["build_pack<br/>provenance"]
+  B --> G["generate<br/>chapters"]
+  G --> Y["verify<br/>overlap + validate + eval"]
+  V -. "Excluded" .-> S["signpost<br/>cite-only"]
 ```
 
-## Quick start
+## Install
+
+```bash
+git clone https://github.com/jgsystemsconsulting/jgs-reference-skill
+cd jgs-reference-skill
+python install.py                 # Claude Code (default), namespaced under ~/.claude/skills/jgs/
+python install.py --agent all     # every user-global agent
+python install.py --list-agents   # show each agent's target path + format
+```
+
+Restart your agent session, then run `/jgs-reference-skill`. For Codex, Gemini, or
+Cursor (and their limitations), see [docs/other-agents.md](docs/other-agents.md).
+
+### Install with your AI agent
+
+Paste this into Claude Code, Cursor, or another coding agent and it will install the
+skill for you:
+
+> Install the **jgs-reference-skill** agent skill (v0.1.0) from
+> `https://github.com/jgsystemsconsulting/jgs-reference-skill`.
+> 1. Clone the repo and read its `README.md` and `docs/skill-usage.md` first.
+> 2. Check prerequisites: Python ≥ 3.9 on `PATH`.
+> 3. Run `python install.py --agent <your agent>` (default Claude Code; use
+>    `--list-agents` to see every target/format).
+> 4. Verify: re-run `python install.py --list-agents`, confirm the skill folder/prompt
+>    now exists at the printed target, restart the session, and confirm
+>    `/jgs-reference-skill` resolves.
+> 5. Note the licence: the tooling is MIT, but **packs you generate carry their
+>    source's licence** — read `docs/SOURCE-VETTING.md` before packaging anything.
+
+## Usage — build a pack (CLI)
 
 ```bash
 # 1. Vet the source FIRST — refuses paywalled / all-rights-reserved sources
@@ -57,7 +97,7 @@ python3 tools/pack_eval.py --pack packs/nasa-se-handbook
 ```
 
 As an agent skill, install it where your host discovers skills (e.g.
-`~/.claude/skills/reference-skill/`) and drive it conversationally — see
+`~/.claude/skills/jgs-reference-skill/`) and drive it conversationally — see
 [SKILL.md](SKILL.md). It vets, extracts, outlines, scaffolds, generates, and runs
 the three gates for you.
 
@@ -72,8 +112,8 @@ packs/<slug>/
 ├── glossary.md · patterns.md · cheatsheet.md
 ```
 
-A pack drops straight into [jgs-se-knowledge-packs](https://github.com/jgsystemsconsulting/jgs-se-knowledge-packs)
-and passes its release gates unmodified.
+A pack drops straight into the JGSC `jgs-se-knowledge-packs` repository and passes its
+release gates unmodified.
 
 ## Tools (all pure stdlib, all `--self-check`)
 
@@ -86,10 +126,17 @@ and passes its release gates unmodified.
 | `tools/validate_pack.py` | structural + licence validator (signpost-aware) |
 | `tools/pack_eval.py` | topic-index-to-chapter grounding check |
 
-## Licensing
+## Licence
 
-Tooling + spec: **MIT** (© 2026 JG Systems Consulting Ltd.). Extraction engine
-vendored from book-to-skill (MIT, © 2025 virgiliojr94) — see
-[ATTRIBUTION.md](ATTRIBUTION.md). Packs you produce carry **their source's** licence,
-not this one. Read [docs/SOURCE-VETTING.md](docs/SOURCE-VETTING.md) before packaging
-anything.
+Tooling + spec: **MIT** — see [LICENSE](LICENSE) (© 2026 JG Systems Consulting Ltd.).
+The extraction engine is vendored from book-to-skill (MIT, © 2025 virgiliojr94) — see
+[ATTRIBUTION.md](ATTRIBUTION.md) and [NOTICE](NOTICE). Packs you produce carry **their
+source's** licence, not this one. Read [docs/SOURCE-VETTING.md](docs/SOURCE-VETTING.md)
+before packaging anything.
+
+## Support
+
+- **Questions / bugs:** open an issue on the [repository](https://github.com/jgsystemsconsulting/jgs-reference-skill/issues).
+- **Security issues:** do **not** open a public issue — see [SECURITY.md](SECURITY.md)
+  (report to `jason.gower@jgsystemsconsulting.com`).
+- **Contributing:** see [CONTRIBUTING.md](CONTRIBUTING.md).

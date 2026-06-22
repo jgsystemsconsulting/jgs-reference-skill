@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "reference-skill"
+name = "jgs-reference-skill"
 version = "0.1.0"
 description = "Convert vetted authoritative sources into licence-clean, citable knowledge packs (a fork of book-to-skill)."
 readme = "README.md"
@@ -11,7 +11,7 @@ requires-python = ">=3.9"
 license = { text = "MIT" }
 
 [project.scripts]
-reference-skill-extract = "book_to_skill.cli:main"
+jgs-reference-skill-extract = "book_to_skill.cli:main"
 
 [project.optional-dependencies]
 epub = ["ebooklib", "beautifulsoup4"]
