@@ -46,8 +46,9 @@ a citation-only signpost instead.
 6. **Verify** three gates: `check_overlap.py` (no verbatim), `validate_pack.py`
    (structure + tier), `pack_eval.py` (index routes are grounded).
 
-A produced pack drops straight into the JGSC `jgs-se-knowledge-packs` repository and
-passes its release gates unmodified.
+A produced pack drops straight into
+[jgs-se-knowledge-packs](https://github.com/jgsystemsconsulting/jgs-se-knowledge-packs)
+and passes its release gates unmodified.
 
 ## Running the tools directly
 

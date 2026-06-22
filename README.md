@@ -112,8 +112,8 @@ packs/<slug>/
 ├── glossary.md · patterns.md · cheatsheet.md
 ```
 
-A pack drops straight into the JGSC `jgs-se-knowledge-packs` repository and passes its
-release gates unmodified.
+A pack drops straight into [jgs-se-knowledge-packs](https://github.com/jgsystemsconsulting/jgs-se-knowledge-packs)
+and passes its release gates unmodified.
 
 ## Tools (all pure stdlib, all `--self-check`)
 
