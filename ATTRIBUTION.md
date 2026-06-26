@@ -1,4 +1,4 @@
-<!-- Copyright (c) 2026 JG Systems Consulting Ltd. — MIT License (see LICENSE). SPDX-License-Identifier: MIT -->
+<!-- Copyright (c) 2026 JG Systems Consulting Ltd. MIT License (see LICENSE). SPDX-License-Identifier: MIT -->
 
 # Attribution
 
@@ -10,8 +10,8 @@ by **virgiliojr94**, used under the MIT License (© 2025 virgiliojr94).
 The text-extraction engine is vendored unchanged so the proven, boring part
 (PDF/EPUB/DOCX/HTML/RTF/Calibre parsing with graceful fallbacks) is not rewritten:
 
-- `book_to_skill/` — the extractor package (parsers, dependency probing, CLI)
-- `scripts/extract.py` — the entry-point wrapper
+- `book_to_skill/`: the extractor package (parsers, dependency probing, CLI)
+- `scripts/extract.py`: the entry-point wrapper
 
 Their original MIT notice is retained at `book_to_skill/LICENSE.upstream.md`.
 

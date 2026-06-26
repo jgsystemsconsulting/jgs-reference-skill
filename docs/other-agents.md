@@ -1,4 +1,4 @@
-<!-- Copyright (c) 2026 JG Systems Consulting Ltd. — MIT License (see ../LICENSE). SPDX-License-Identifier: MIT -->
+<!-- Copyright (c) 2026 JG Systems Consulting Ltd. MIT License (see ../LICENSE). SPDX-License-Identifier: MIT -->
 
 # Installing with other agents
 
@@ -17,13 +17,13 @@ unchanged); others need a **format transform** into their own prompt/rule conven
 | Cursor | `cursor` | `./.cursor/rules/jgs-reference-skill.mdc` | transform (project-local rule) |
 
 `<ns>` is the vendor namespace (`jgs` by default; `--flat` drops it). `--agent all`
-installs to every **user-global** agent — Cursor is project-local, so run it separately
+installs to every **user-global** agent. Cursor is project-local, so run it separately
 inside the project you want it in.
 
 ## Important limitation for transform agents
 
 Native installs copy the **whole skill**, including its Python tools
-(`tools/*.py`, `scripts/extract.py`) — so the full vet → extract → outline → verify
+(`tools/*.py`, `scripts/extract.py`), so the full vet → extract → outline → verify
 pipeline works.
 
 The transform formats (Codex / Gemini / Cursor) carry only the **prose spec**
