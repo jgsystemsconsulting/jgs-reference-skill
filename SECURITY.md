@@ -1,4 +1,4 @@
-<!-- Copyright (c) 2026 JG Systems Consulting Ltd. — MIT License (see LICENSE). SPDX-License-Identifier: MIT -->
+<!-- Copyright (c) 2026 JG Systems Consulting Ltd. MIT License (see LICENSE). SPDX-License-Identifier: MIT -->
 
 # Security Policy
 
@@ -14,7 +14,9 @@ Only the latest released `0.x` line receives security fixes.
 
 **Do not open a public issue for a security problem.**
 
-Report it privately to **jason.gower@jgsystemsconsulting.com** with:
+Report it privately through GitHub: open a
+[security advisory](https://github.com/jgsystemsconsulting/jgs-reference-skill/security/advisories/new)
+on this repository (**Security** tab, then **Report a vulnerability**). Include:
 
 - a description of the issue and its impact,
 - steps to reproduce (a proof-of-concept if you have one),
@@ -30,8 +32,8 @@ This is a report-only policy: there is **no bug-bounty or paid reward** programm
 
 This repository is a local developer/agent tool. The most relevant classes of issue:
 
-- the text-extraction engine processes untrusted documents — parser crashes,
-  resource exhaustion, or path-traversal on output are in scope;
+- the text-extraction engine processes untrusted documents (parser crashes,
+  resource exhaustion, or path-traversal on output) are in scope;
 - any tool that writes outside the intended pack/skill directory;
 - supply-chain concerns in the optional extraction dependencies.
 

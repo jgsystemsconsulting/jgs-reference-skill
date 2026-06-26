@@ -1,4 +1,4 @@
-<!-- Copyright (c) 2026 JG Systems Consulting Ltd. — MIT License (see ../LICENSE). SPDX-License-Identifier: MIT -->
+<!-- Copyright (c) 2026 JG Systems Consulting Ltd. MIT License (see ../LICENSE). SPDX-License-Identifier: MIT -->
 
 # Using jgs-reference-skill
 
@@ -32,13 +32,13 @@ Drive it conversationally, or with the slash command:
 /jgs-reference-skill add NIST SP 800-160 Vol 2 to my nist-sse pack
 ```
 
-The skill needs the source's **title, publisher, and licence** — it vets the licence
+The skill needs the source's **title, publisher, and licence**. It vets the licence
 **first** (Step 1) and refuses to package non-redistributable sources, routing them to
 a citation-only signpost instead.
 
 ## What it does, in order
 
-1. **Vet** the source's licence (`tools/vet_source.py`) — Tier 1/2/3 or Excluded.
+1. **Vet** the source's licence (`tools/vet_source.py`): Tier 1/2/3 or Excluded.
 2. **Extract** text (vendored `scripts/extract.py`).
 3. **Outline** deterministically (`tools/outline.py`) → exact chapter offsets.
 4. **Scaffold** provenance (`tools/build_pack.py`) → `PACK.yaml` + `LICENSE`.

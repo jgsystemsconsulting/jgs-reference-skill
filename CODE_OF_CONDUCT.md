@@ -1,10 +1,10 @@
-<!-- Copyright (c) 2026 JG Systems Consulting Ltd. — MIT License (see LICENSE). SPDX-License-Identifier: MIT -->
+<!-- Copyright (c) 2026 JG Systems Consulting Ltd. MIT License (see LICENSE). SPDX-License-Identifier: MIT -->
 
 # Code of Conduct
 
 ## Our pledge
 
-We — contributors and maintainers — pledge to make participation in this project a
+We, contributors and maintainers, pledge to make participation in this project a
 harassment-free experience for everyone, regardless of age, body size, disability,
 ethnicity, gender identity and expression, level of experience, nationality, personal
 appearance, race, religion, or sexual identity and orientation.
