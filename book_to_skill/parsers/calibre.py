@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import os
 import shutil
 import subprocess
 import sys
@@ -11,6 +12,7 @@ def extract_with_ebook_convert(input_path: str) -> str | None:
         return None
     output_path = OUTPUT_DIR / "ebook-convert-output.txt"
     try:
+        input_path = os.path.abspath(input_path)
         result = subprocess.run(
             ["ebook-convert", input_path, str(output_path)],
             capture_output=True, text=True, timeout=300

@@ -5,6 +5,8 @@ import os
 import shutil
 import subprocess
 import sys
+from pathlib import Path
+
 from book_to_skill.config import PYTHON_DEPENDENCIES, HTML_EXTENSIONS
 
 
@@ -14,11 +16,11 @@ from book_to_skill.config import PYTHON_DEPENDENCIES, HTML_EXTENSIONS
 DEPENDENCY_GROUPS = [
     {
         "label": "PDF (text-heavy)",
-        "modules": ["PyPDF2", "pdfminer"],
+        "modules": ["pypdf", "pdfminer"],
         "any_of_modules": True,
         "any_tool_suffices": True,
         "system": [("pdftotext", "poppler-utils", "sudo apt install poppler-utils")],
-        "note": "any one of pdftotext / PyPDF2 / pdfminer is enough",
+        "note": "any one of pdftotext / pypdf / pdfminer is enough",
     },
     {
         "label": "PDF (technical: tables, code, formulas)",
@@ -70,6 +72,32 @@ DEPENDENCY_GROUPS = [
 
 def python_module_available(module_name: str) -> bool:
     return importlib.util.find_spec(module_name) is not None
+
+
+def isolated_install_hint(module_name: str) -> str | None:
+    """Explain a module that is installed as a tool but not importable here.
+
+    pipx — the way Docling's own docs suggest installing it — puts the package
+    in its own virtualenv and only the executable on PATH. The module is then
+    genuinely not importable from this interpreter, so "✗ python: docling" is
+    correct and useless: the user installed it, and we say it is missing.
+
+    Returns a line naming the executable and the interpreter that can import
+    it, or None when there is no such executable. Never claims the module is
+    available — the parsers import it, so a binary on PATH does not make the
+    import work; it only tells us where a working environment is.
+    """
+    executable = shutil.which(module_name)
+    if not executable:
+        return None
+    # pipx layout: <venv>/bin/<tool> — its sibling `python` can import the module.
+    venv_python = Path(executable).resolve().parent / "python"
+    where = f"\n        {venv_python} scripts/extract.py …" if venv_python.exists() else ""
+    return (
+        f"a `{module_name}` command exists at {executable}, so it is installed in an "
+        f"isolated environment (pipx?).\n        Run the extractor with that "
+        f"environment's Python, or install it into this one:{where}"
+    )
 
 
 def missing_python_packages(module_names: list[str]) -> list[str]:
@@ -175,7 +203,7 @@ def prepare_dependencies(ext: str, extraction_mode: str, install_mode: str) -> N
     if ext == ".pdf" and not shutil.which("pdftotext"):
         offer_dependency_install(
             feature="PDF text extraction",
-            module_names=["PyPDF2", "pdfminer"],
+            module_names=["pypdf", "pdfminer"],
             fallback="any installed Python PDF parser; extraction fails if none are available",
             install_mode=install_mode,
         )
@@ -239,6 +267,9 @@ def run_dependency_check() -> int:
             print(f"      {'✓' if ok else '✗'} python: {pip_name}")
             if not ok:
                 missing_pip_packages.append(pip_name)
+                hint = isolated_install_hint(module_name)
+                if hint:
+                    print(f"        ↳ {hint}")
 
         for cmd, pretty, hint in group["system"]:
             ok = cmd in system_present
