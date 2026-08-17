@@ -53,6 +53,12 @@ EXCLUDED = {
     "pmbok": "PMBOK is PMI-copyrighted",
     "project management institute": "PMI material is copyrighted",
     "wiley": "Wiley-published works are copyrighted",
+    "afotec": "AFOTEC OT&E / CERT products are not a redistribution grant for this library",
+    "defense acquisition guidebook": "DAG is not packageable here",
+    "dod dag": "DAG is not packageable here",
+    "cmu": "SEI technical reports are not a blanket redistribution grant",
+    "carnegie mellon": "SEI technical reports are not a blanket redistribution grant",
+    "software engineering institute": "SEI technical reports are not a blanket redistribution grant",
 }
 
 # US-government / public-domain publisher signals → Tier 1.
