@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+# Copyright (c) 2026 JG Systems Consulting Ltd. See LICENSE.
+# SPDX-License-Identifier: MIT
 """
 discovery_tax.py — measure the "Discovery Loop Tax".
 

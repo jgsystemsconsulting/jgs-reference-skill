@@ -104,7 +104,15 @@ footer{padding:var(--pad-section) 0;}
   <span>CLASSIFICATION: <b>PUBLIC</b></span>
   <span>LICENCE: <b>MIT</b></span>
   <span>DOC-ID: <b>JGS-REF-SKILL</b></span>
-  <span>REV <b>0.1.0</b></span>
+  <span>REV <b>0.2.0</b></span>
+  <nav aria-label="Primary" style="margin-left:auto;display:flex;flex-wrap:wrap;gap:1rem">
+    <a href="#what-it-is">What it is</a>
+    <a href="#pipeline">Pipeline</a>
+    <a href="#different">Different</a>
+    <a href="#agents">Agents</a>
+    <a href="#install">Install</a>
+    <a href="#use">Use it</a>
+  </nav>
 </div></header>
 
 <main>
@@ -118,12 +126,12 @@ footer{padding:var(--pad-section) 0;}
   </div>
 </div></div>
 
-<section><div class="wrap">
+<section id="what-it-is"><div class="wrap">
   <div class="shead"><span class="label">§01 · What it is</span><h2>A reference oracle, not study notes</h2></div>
   <p class="lead">A reference pack answers "what does this body of knowledge say about X?" from the actual source: grounded, never hallucinated, never a photocopy. It keeps book-to-skill's progressive-disclosure shape (a small always-loaded <code>SKILL.md</code> plus on-demand chapters) and adds the provenance, licence, and verification rigour that a <em>published</em> pack needs.</p>
 </div></section>
 
-<section><div class="wrap">
+<section id="pipeline"><div class="wrap">
   <div class="shead"><span class="label">§02 · The pipeline</span><h2>Vet first, verify last</h2></div>
   <div class="grid g3">
     <div class="cell"><span class="num">01</span><h3>vet_source</h3><p>Classify the licence: Tier 1/2/3 or Excluded. Paywalled / all-rights-reserved sources are refused and routed to a citation-only signpost.</p></div>
@@ -135,7 +143,7 @@ footer{padding:var(--pad-section) 0;}
   </div>
 </div></section>
 
-<section><div class="wrap">
+<section id="different"><div class="wrap">
   <div class="shead"><span class="label">§03 · What makes it different</span><h2>The rigour book-to-skill leaves out</h2></div>
   <div class="grid g2">
     <div class="cell"><h3>Licence-vet gate</h3><p>Tier 1/2/3/Excluded classification before extraction. An Excluded source is a hard stop: it becomes a signpost, never a pack.</p></div>
@@ -145,7 +153,7 @@ footer{padding:var(--pad-section) 0;}
   </div>
 </div></section>
 
-<section><div class="wrap">
+<section id="agents"><div class="wrap">
   <div class="shead"><span class="label">§04 · Supported agents</span><h2>One skill, many hosts</h2></div>
   <div class="grid g3">
     <div class="cell"><h3>Native</h3><p>Claude Code, OpenClaw, GitHub Copilot CLI: the skill folder (tools included) is copied unchanged.</p></div>
@@ -183,13 +191,13 @@ python install.py --list-agents   <span class="c"># show each target + format</s
 <footer><div class="wrap">
   <div class="tblock">
     <div><span class="label">Product</span><b>jgs-reference-skill</b></div>
-    <div><span class="label">Rev</span><b>0.1.0</b></div>
+    <div><span class="label">Rev</span><b>0.2.0</b></div>
     <div><span class="label">Licence</span><b>MIT</b></div>
     <div><span class="label">Repository</span><b><a href="https://github.com/jgsystemsconsulting/jgs-reference-skill">github.com/jgsystemsconsulting</a></b></div>
     <div><span class="label">Engine</span><b>book-to-skill (MIT)</b></div>
     <div><span class="label">Owner</span><b>JG Systems Consulting Ltd.</b></div>
   </div>
-  <p class="foot-note">&copy; 2026 JG Systems Consulting Ltd. Tooling licensed under MIT. Produced knowledge packs carry their source's own licence. Extraction engine vendored from book-to-skill, &copy; 2025 virgiliojr94 (MIT).</p>
+  <p class="foot-note">&copy; 2026 JG Systems Consulting Ltd. Tooling licensed under MIT. Produced knowledge packs carry their source's own licence. Extraction engine vendored from book-to-skill, &copy; 2025 virgiliojr94 (MIT). No purchase or licence key needed to use this tooling; for commercial licensing questions see <a href="https://labs.jgsystemsconsulting.com/licensing.html">licensing enquiries</a>.</p>
 </div></footer>
 
 </body>

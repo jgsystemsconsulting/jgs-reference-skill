@@ -1,3 +1,5 @@
+# Copyright (c) 2026 JG Systems Consulting Ltd. See LICENSE.
+# SPDX-License-Identifier: MIT
 """
 Tests for tools/discovery_tax.py — the Discovery Loop Tax measurement.
 

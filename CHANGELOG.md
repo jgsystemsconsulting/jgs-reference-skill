@@ -10,12 +10,12 @@ Synced the vendored extraction engine with upstream
 docs) is untouched.
 
 ### Updated (from upstream v1.3.0/v1.4.0)
-- `book_to_skill/`: +963/−126 across 12 files — new `sanitize.py`
+- `book_to_skill/`: +963/−126 across 12 files, new `sanitize.py`
   (invisible/bidi Unicode scrubbing), DOCX XXE/Billion-Laughs hardening,
   subprocess argument-injection hardening, pypdf migration (PyPDF2 deprecated),
   Korean/Thai chapter detection, encoding/BOM/EPUB-spine/RTF fixes.
 - `tests/`: upstream suite carried over (452 passed, 5 skipped).
-  Dropped `test_publish_visibility_gate.py` — it asserts upstream SKILL.md
+  Dropped `test_publish_visibility_gate.py`: it asserts upstream SKILL.md
   publish-flow wording this fork deliberately replaced.
 - Vendored upstream `tools/discovery_tax.py` and `tools/scan_generated_skill.py`
   (advisory prompt-injection scan for generated skills).

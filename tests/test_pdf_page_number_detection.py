@@ -1,3 +1,5 @@
+# Copyright (c) 2026 JG Systems Consulting Ltd. See LICENSE.
+# SPDX-License-Identifier: MIT
 """Regression tests: edge-of-page cleanup must not delete real one-word lines.
 
 `clean_pdftotext` drops a bare page number when it is a page's first or last

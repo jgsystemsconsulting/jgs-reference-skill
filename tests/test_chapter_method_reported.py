@@ -1,3 +1,5 @@
+# Copyright (c) 2026 JG Systems Consulting Ltd. See LICENSE.
+# SPDX-License-Identifier: MIT
 """The run must say which method produced `chapters_detected`.
 
 Chapter detection picks between counting numeric "Chapter N" headings and

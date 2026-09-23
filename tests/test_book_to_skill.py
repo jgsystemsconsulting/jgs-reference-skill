@@ -1,3 +1,5 @@
+# Copyright (c) 2026 JG Systems Consulting Ltd. See LICENSE.
+# SPDX-License-Identifier: MIT
 """
 Test suite for the three PR blocker fixes + nits in the book_to_skill package.
 

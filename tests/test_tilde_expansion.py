@@ -1,3 +1,5 @@
+# Copyright (c) 2026 JG Systems Consulting Ltd. See LICENSE.
+# SPDX-License-Identifier: MIT
 """Regression tests: a leading "~" in an input path is expanded.
 
 A glob has to be quoted to survive the shell and reach us as a pattern

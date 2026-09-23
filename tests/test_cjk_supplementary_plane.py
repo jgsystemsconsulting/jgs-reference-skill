@@ -1,3 +1,5 @@
+# Copyright (c) 2026 JG Systems Consulting Ltd. See LICENSE.
+# SPDX-License-Identifier: MIT
 """`estimate_tokens` must count supplementary-plane CJK, not just the BMP.
 
 #103 made the estimate CJK-aware because ideographs are not whitespace-delimited:

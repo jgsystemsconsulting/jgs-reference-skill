@@ -80,3 +80,6 @@ jobs:
               print('::error::version mismatch across sources'); sys.exit(1)
           print(f'OK: all versions agree at {uniq.pop()}.')
           PY
+
+      - name: Release gate (RR-B-15)
+        run: python3 scripts/check_release.py

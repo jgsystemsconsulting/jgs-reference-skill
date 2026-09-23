@@ -1,3 +1,5 @@
+# Copyright (c) 2026 JG Systems Consulting Ltd. See LICENSE.
+# SPDX-License-Identifier: MIT
 """Two quiet messages: attribution at the start, funding at the end.
 
 The ask sits at the end on purpose — the reader has just received something

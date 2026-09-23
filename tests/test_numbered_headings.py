@@ -1,3 +1,5 @@
+# Copyright (c) 2026 JG Systems Consulting Ltd. See LICENSE.
+# SPDX-License-Identifier: MIT
 """Numbered headings are chapters when the numbering is systematic AND the
 sections carry a chapter's worth of text.
 

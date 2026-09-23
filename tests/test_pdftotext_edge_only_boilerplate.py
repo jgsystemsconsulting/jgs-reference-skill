@@ -1,3 +1,5 @@
+# Copyright (c) 2026 JG Systems Consulting Ltd. See LICENSE.
+# SPDX-License-Identifier: MIT
 """Running-header removal must be confined to page edges.
 
 `clean_pdftotext` collects boilerplate candidates from the first and last

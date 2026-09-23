@@ -1,3 +1,5 @@
+# Copyright (c) 2026 JG Systems Consulting Ltd. See LICENSE.
+# SPDX-License-Identifier: MIT
 """Scan coverage: nested chapters are in scope, and skipped files are reported.
 
 Two problems, both about the scanner's *coverage* rather than its rules.

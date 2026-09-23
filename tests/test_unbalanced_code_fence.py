@@ -1,3 +1,5 @@
+# Copyright (c) 2026 JG Systems Consulting Ltd. See LICENSE.
+# SPDX-License-Identifier: MIT
 """An unbalanced code fence must not swallow the rest of the document.
 
 `_structural_chapter_count` skips headings inside fenced code blocks, which is

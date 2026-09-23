@@ -1,3 +1,5 @@
+# Copyright (c) 2026 JG Systems Consulting Ltd. See LICENSE.
+# SPDX-License-Identifier: MIT
 """Consolidated `has_toc` must not depend on the order of the input files.
 
 `detect_structure` only scans the first ~30,000 characters for a table-of-contents

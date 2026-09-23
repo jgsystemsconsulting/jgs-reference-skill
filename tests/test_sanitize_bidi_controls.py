@@ -1,3 +1,5 @@
+# Copyright (c) 2026 JG Systems Consulting Ltd. See LICENSE.
+# SPDX-License-Identifier: MIT
 """Bidirectional controls and the remaining invisible code points are stripped.
 
 Before this, `sanitize_extracted_text` covered only the zero-width set plus the

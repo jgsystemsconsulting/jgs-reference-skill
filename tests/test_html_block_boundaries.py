@@ -1,3 +1,5 @@
+# Copyright (c) 2026 JG Systems Consulting Ltd. See LICENSE.
+# SPDX-License-Identifier: MIT
 """The stdlib HTML parser must emit a text boundary when a block element closes.
 
 `_HTMLTextExtractor` is the dependency-free fallback for HTML files *and* for

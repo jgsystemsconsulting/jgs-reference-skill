@@ -1,3 +1,5 @@
+# Copyright (c) 2026 JG Systems Consulting Ltd. See LICENSE.
+# SPDX-License-Identifier: MIT
 """The dependency-free RTF fallback must drop non-content destination groups.
 
 `strip_rtf_fallback` deleted control *words* and then removed all braces, so

@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "jgs-reference-skill"
+version: 0.2.0
+date-released: 2026-09-23
+url: "https://github.com/jgsystemsconsulting/jgs-reference-skill"
+repository-code: "https://github.com/jgsystemsconsulting/jgs-reference-skill"
+license: MIT
+type: software
+authors:
+  - name: "JG Systems Consulting Ltd"
+    website: "https://www.jgsystemsconsulting.com"
+  - name: "virgiliojr94"
+    website: "https://github.com/virgiliojr94"

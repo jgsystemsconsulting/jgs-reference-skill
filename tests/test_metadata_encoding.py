@@ -1,3 +1,5 @@
+# Copyright (c) 2026 JG Systems Consulting Ltd. See LICENSE.
+# SPDX-License-Identifier: MIT
 """metadata.json must be written as UTF-8, not in the host's locale encoding.
 
 `main()` dumps the metadata with ``ensure_ascii=False``, so non-ASCII text is
