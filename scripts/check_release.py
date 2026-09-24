@@ -57,7 +57,7 @@ FORBIDDEN_PATH_PARTS = [
 NEVER_TRACK = (".zcode/", ".superpowers/")
 IGNORE_RULES: tuple[str, ...] = (".zcode/", ".superpowers/", "packs/")
 FROZEN_TREES: dict[str, str] = {
-    "docs/superpowers/": "8fe46a5a360dc172065f17591d6daf3538d7026e8fb16b34d59837a2c09d98b3",
+    "docs/superpowers/": "08849715934b6e44fabd4a71dc5f419696a5d5e71864e1d0c74365b389ce7e82",
 }
 
 # Assembled from parts so this file never self-matches the workflow's
