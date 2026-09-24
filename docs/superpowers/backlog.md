@@ -12,3 +12,4 @@ One project per repository. Rows are never deleted; every transition is a status
 | b-06 | DOCX safety is a multi-encoding DOCTYPE/ENTITY string scan, not a rejecting XML parser (defense-in-depth upgrade) | advisories round 1 (a-12) | open | book_to_skill/parsers/docx.py:L93-108 |
 | b-07 | build_pack.py has no `--self-check` while README claims every tool has one and the CONTRIBUTING self-check loop omits it | advisories round 1 (a-01, a-04) | open | CONTRIBUTING.md:L30-32; tools/build_pack.py |
 | b-08 | validate_pack never asserts the required Scope & Limits section despite PACK-SPEC/SKILL requiring it | advisories round 1 (a-07) | open | tools/validate_pack.py:L53-106 |
+| b-09 | check_overlap exits 0 when zero target files exist (same vacuous-green species pack_eval had; surfaced by P4 spec review) | step9 spec review round 1 | open | tools/check_overlap.py |
