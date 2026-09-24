@@ -50,6 +50,10 @@ See [`../templates/PACK.yaml`](../templates/PACK.yaml). Mandatory fields:
 `slug`, `title`, `publisher`, `license`, `license_tier` (∈ {1,2,3}), `commercial_use`.
 **No `source_url` is stored or published.** The source is identified textually
 (title + publisher + version), and `publisher` carries the attribution.
+`build_pack` loads that template, substitutes the `<TOKEN>` placeholders, and
+leaves the fill-later markers (`built_on: "TODO"`, notes `TODO:`, zero
+`source_pages` / `chapters`) for the operator; `validate_pack` rejects those
+markers on non-signpost packs.
 
 ## Validation
 
