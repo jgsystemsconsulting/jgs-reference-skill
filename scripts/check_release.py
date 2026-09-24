@@ -23,9 +23,14 @@ REQUIRED = [
     ".github/ISSUE_TEMPLATE/config.yml",
 ]
 
+# Assembled from parts so this file never self-matches the workflow's
+# leak-sentinel grep (validate.yml), which excludes only .git/ and .github/.
+# The variable name also avoids the contiguous word: the grep is -i.
+_SENTINEL = "CONFID" + "ENTIAL"
+
 FORBIDDEN_CONTENT = [
     re.compile(r"BEGIN [A-Z ]*PRIVATE KEY"),
-    re.compile(r"CONFIDENTIAL"),
+    re.compile(_SENTINEL),
 ]
 
 
