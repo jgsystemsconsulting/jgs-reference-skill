@@ -1,7 +1,7 @@
 {
   "name": "jgs-reference-skill",
   "description": "Convert vetted authoritative sources (standards, handbooks, guidebooks) into licence-clean, citable knowledge packs. Vets the source's licence first and refuses non-redistributable sources.",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "author": {
     "name": "JG Systems Consulting Ltd.",
     "email": "jason.gower@jgsystemsconsulting.com"

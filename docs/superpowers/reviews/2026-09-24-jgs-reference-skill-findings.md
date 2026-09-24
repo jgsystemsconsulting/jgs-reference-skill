@@ -356,7 +356,7 @@ Below-the-findings-bar material recorded for a later packaging run to judge; non
 | a-13 | subprocess calls use argv lists + abspath (pdftotext/pdfinfo/ebook-convert/pip); no shell=True found | book_to_skill/parsers/pdf.py:L81-84 |
 | a-14 | SECURITY.md supported-versions table still lists 0.1.x while release is 0.2.0; policy staleness not a boundary hole | SECURITY.md:L7-9 |
 | a-15 | vet_source 'iso' substring can over-exclude titles; fails closed, not an auth bypass | tools/vet_source.py:L41-42 |
-| a-16 | No secrets/credentials in tracked tree; CI leak-sentinel grep covers PRIVATE KEY/CONFIDENTIAL | .github/workflows/validate.yml:L906-914 |
+| a-16 | No secrets in tracked tree; the CI leak-sentinel grep covers private-key blocks and confidentiality markers | .github/workflows/validate.yml:L906-914 |
 | a-17 | README install target example omits jgs/ namespace vs install.py default | README.md:L291-292 |
 | a-18 | README CLI blocks prefer python3 while Install section uses plain python | README.md:L228 vs README.md:L272 |
 | a-19 | build_pack.py template TODOs are intentional scaffold placeholders, not operator docs gaps | tools/build_pack.py:L49 |

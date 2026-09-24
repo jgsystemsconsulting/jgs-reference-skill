@@ -2,6 +2,23 @@
 
 # Changelog
 
+## 0.2.1 - 2026-09-24
+
+Release-hygiene cut: land the superpowers review and packaging pipeline
+artifacts, merge the outstanding vet-hardening branch, and correct release
+provenance.
+
+### Added
+- `docs/superpowers/`: repository review findings and triage log (10 issues:
+  2 HIGH, 8 MEDIUM; 20 advisories), the converged packages document (P1-P9),
+  the routed backlog, and the P1 CI spec (pipeline in progress).
+
+### Fixed
+- `tools/vet_source.py`: Excluded list gains AFOTEC, Defense Acquisition
+  Guidebook (DAG), and CMU/SEI sources (merged from branch hyg-03).
+- RELEASE-INFO.txt now names a real, reachable Source-Commit, and the v0.2.1
+  tag exists (v0.2.0 shipped without a tag).
+
 ## 0.2.0 - 2026-08-14
 
 Synced the vendored extraction engine with upstream
