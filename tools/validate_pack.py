@@ -20,11 +20,14 @@ Checks (see docs/PACK-SPEC.md and docs/SOURCE-VETTING.md):
   - SKILL.md has YAML frontmatter with name + description; name matches folder slug
   - every chapters/chNN-*.md link in SKILL.md resolves to a real file
   - PACK.yaml mandatory fields filled; license_tier in {1,2,3}
+  - unfilled scaffolds rejected (non-signpost): TODO / <TOKEN> markers, zero
+    build counters, licence stub line (fill-later markers are reserved)
 
 stdlib only. Exit 0 = all passed, 1 = a failure, 2 = usage error.
 """
 from __future__ import annotations
 
+import json
 import re
 import sys
 import tempfile
@@ -46,6 +49,12 @@ def parse_simple_yaml(text: str) -> dict:
         key, val = m.group(1), m.group(2).strip()
         if val in (">", "|", ""):
             continue
+        if len(val) >= 2 and val.startswith('"') and val.endswith('"'):
+            try:
+                out[key] = json.loads(val)  # YAML double-quoted == JSON escaping
+                continue
+            except json.JSONDecodeError:
+                pass  # legacy fallback: plain strip below
         out[key] = val.strip().strip('"').strip("'")
     return out
 
@@ -102,6 +111,22 @@ def check_pack(pack_dir: Path) -> list[str]:
             errors.append(f"PACK.yaml license_tier='{tier}' invalid — must be 1, 2, or 3")
         if meta.get("slug") and meta["slug"] != slug:
             errors.append(f"PACK.yaml slug '{meta['slug']}' != folder name '{slug}'")
+
+        # --- unfilled-scaffold markers (non-signpost; fill-later markers are reserved) ---
+        if not is_signpost:
+            raw = pack_yaml.read_text(encoding="utf-8")
+            if "TODO" in raw:
+                errors.append("PACK.yaml contains unfilled TODO marker")
+            placeholder = re.search(r"<[A-Z][A-Z_]*>", raw)
+            if placeholder:
+                errors.append(f"PACK.yaml contains unfilled placeholder {placeholder.group(0)}")
+            if re.search(r"(?m)^\s*source_pages:\s*0\s*$", raw):
+                errors.append("PACK.yaml build.source_pages still 0")
+            if re.search(r"(?m)^\s*chapters:\s*0\s*$", raw):
+                errors.append("PACK.yaml build.chapters still 0")
+            license_file = pack_dir / "LICENSE"
+            if license_file.is_file() and "TODO: reproduce" in license_file.read_text(encoding="utf-8"):
+                errors.append("LICENSE still contains stub line TODO: reproduce")
 
     return errors
 
