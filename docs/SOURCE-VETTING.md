@@ -30,7 +30,11 @@ conditions forward**:
 - **Creative Commons** BY / BY-SA / BY-NC / BY-NC-SA. NC → `commercial_use: false`;
   SA → pack content under the source's licence (not this repo's MIT); BY →
   attribution in `LICENSE` + `PACK.yaml`.
-- Permissive licences (MIT/Apache/BSD) where they cover the text.
+- Permissive licences (MIT/Apache/BSD) where they cover the text. Recognition is
+  case-insensitive token / word-boundary match on the family name (MIT, Apache,
+  BSD), so accidental substrings in ordinary prose (for example "limitations" or
+  "committee") do not count as a grant. A family token paired with a
+  non-commercial restriction falls to Tier 3 caution instead of commercial true.
 
 ### 🟠 Tier 3: Caution (justify in PACK.yaml)
 - **No-derivatives** (CC BY-ND): a pack transforms the source, which ND forbids.
