@@ -12,9 +12,12 @@ Covers spec 2026-09-24-pack-scaffold-provenance criteria 1-4:
      copy) with the fill-later markers left intact.
 """
 
+import os
 import re
 import sys
+import tempfile
 from pathlib import Path
+from uuid import uuid4
 
 import pytest
 
@@ -57,11 +60,15 @@ def scaffold(tmp_path, slug, out_dir=None, **overrides):
 
 
 def test_slug_absolute_path_rejected(tmp_path):
-    rc = run(tmp_path, "/tmp/evil")
+    # A guaranteed-absent absolute target: no coupling to machine state (the
+    # suite also runs on ubuntu CI, where /tmp is world-writable).
+    absent = Path(tempfile.gettempdir()) / f"jgs-absent-{os.getpid()}-{uuid4().hex[:8]}"
+    assert not absent.exists()
+    rc = run(tmp_path, str(absent))
     assert rc == 1
     # Nothing created under the out-dir, and nothing at the absolute target.
     assert not (tmp_path / OUT_DIR).exists()
-    assert not Path("/tmp/evil").exists()
+    assert not absent.exists()
 
 
 def test_slug_dotdot_rejected(tmp_path):

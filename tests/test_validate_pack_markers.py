@@ -131,3 +131,7 @@ def test_signpost_skips_marker_checks(tmp_path):
     # TODO and zero counters -- signpost packs must pass structural checks and
     # must not trigger the marker findings.
     assert validate_pack.check_pack(pack) == []
+    # Negative half: the signpost exemption skips marker checks only, not the
+    # structural rules.
+    (pack / "SKILL.md").unlink()
+    assert "missing SKILL.md" in validate_pack.check_pack(pack)
