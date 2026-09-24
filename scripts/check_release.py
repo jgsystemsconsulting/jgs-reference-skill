@@ -64,7 +64,7 @@ def check_source_commit(root: pathlib.Path) -> list[str]:
 
     try:
         text = path.read_text(encoding="utf-8")
-    except OSError as exc:
+    except (OSError, UnicodeDecodeError) as exc:
         return [f"RELEASE-INFO.txt: unreadable: {exc}"]
 
     matches = _SOURCE_COMMIT_LINE.findall(text)

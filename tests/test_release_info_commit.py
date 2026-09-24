@@ -180,17 +180,23 @@ def test_not_a_git_repository_message(tmp_path: Path) -> None:
     assert "not a git repository" in errs[0]
 
 
-def test_non_utf8_bytes_currently_crash_helper(tmp_path: Path) -> None:
-    """Pin the known crash path: read_text(encoding="utf-8") in
-    check_source_commit catches only OSError, so a non-UTF-8 byte raises
-    UnicodeDecodeError out of the helper (a bare traceback for CLI users,
-    not a ::error:: line). The wanted fix is to also catch
-    UnicodeDecodeError and return an error string; when that lands this
-    test fails and must be flipped to assert the returned error.
+def test_non_utf8_bytes_fail_as_gate_error(
+    tmp_path: Path,
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    """A non-UTF-8 byte in RELEASE-INFO.txt is a normal gate failure:
+    nonzero exit, ::error:: line, never a bare traceback. ROOT is pointed
+    at the temp repo because the CLI hardcodes it to its own checkout.
     """
     repo = _init_repo(tmp_path)
     (repo / "RELEASE-INFO.txt").write_bytes(
         b"Version: 0.0.0\nSource-Commit: \xff\xfe\n"
     )
-    with pytest.raises(UnicodeDecodeError):
-        check_release.check_source_commit(repo)
+    monkeypatch.setattr(check_release, "ROOT", repo)
+    rc = check_release.main()
+    out = capsys.readouterr().out
+    assert rc == 1
+    assert "::error::" in out
+    assert "::error::RELEASE-INFO.txt: unreadable" in out
+    assert "Traceback" not in out
