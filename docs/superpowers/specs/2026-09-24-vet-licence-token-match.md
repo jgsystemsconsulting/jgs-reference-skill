@@ -62,7 +62,7 @@ Replace the three-substring `any(k in lic ...)` test with a single case-insensit
 _verdict(tier=2, commercial_use=True, share_alike=False, attribution_required=True)
 ```
 
-No match falls through to the existing step-4 path (Goal 3). Implementation stays pure `re` from the stdlib already imported at L28.
+No match falls through to the existing step-4 path (Goal 2). Implementation stays pure `re` from the stdlib already imported at L28.
 
 **Matcher rule (normative).** A permissive-family hit is a match of any of the following patterns against `lic` (lowercased). Use Python `\b` word boundaries so the family token is not a run inside a longer alphabetic word. Hyphen and other non-word characters already form a boundary, so SPDX-style and "MIT-style" forms work without extra branches.
 
@@ -78,7 +78,7 @@ No match falls through to the existing step-4 path (Goal 3). Implementation stay
 _PERMISSIVE_FAMILY = re.compile(r"\b(?:mit|apache|(?:free\s*)?bsd)\b")
 # ...
 _NEGATION = re.compile(
-    r"\bnon[\s_-]*commercial\b|\bno[\s]+commercial\b|\bnot\s+for\s+commercial\b"
+    r"\bnon[\s_-]*commercial\b|\bno[\s_-]*commercial\b|\bnot\s+for\s+commercial\b"
     r"|\bcommercial\s+use\s+(?:is\s+)?(?:prohibited|restricted|forbidden|not\s+permitted|not\s+allowed)\b"
     r"|\bnc\b")  # boundary-anchored: the standalone token, never the nc inside licence
 if _PERMISSIVE_FAMILY.search(lic) and not _NEGATION.search(lic):
@@ -88,7 +88,7 @@ if _PERMISSIVE_FAMILY.search(lic) and not _NEGATION.search(lic):
 # commercial_use=True: it falls through to the step-4 caution path.
 ```
 
-One compiled pattern is enough. Do not enumerate every SPDX string as a separate branch; the boundary on the family token is the contract.
+One family pattern plus the separate negation guard is enough. Do not enumerate every SPDX string as a separate branch; the boundary on the family token is the contract.
 
 **Explicit non-matches (must stay non-Tier-2 from this branch):**
 
@@ -100,7 +100,7 @@ One compiled pattern is enough. Do not enumerate every SPDX string as a separate
 
 ### 2. Ambiguous family mention fails toward caution
 
-If the licence string does not satisfy the boundary matcher, this branch must **not** return `commercial_use=true`. There is no "maybe MIT" half-tier. The same caution applies to negated grants: a family token accompanied by a non-commercial restriction (spelled `non-commercial`, `noncommercial`, `non commercial`, `no commercial`, `not for commercial`, `commercial use prohibited/restricted/forbidden/not permitted`, or a standalone `nc` token) must not yield `commercial_use=true`; the negation guard in the implementation shape routes it to the step-4 fallback. The trade-off is accepted and deliberate: a legitimate permissive grant whose prose merely mentions non-commercial terms alongside the family token (for example "MIT; no commercial restrictions") is also demoted to the caution path. Failing toward caution is the contract.
+If the licence string does not satisfy the boundary matcher, this branch must **not** return `commercial_use=true`. There is no "maybe MIT" half-tier. The same caution applies to negated grants: a family token accompanied by a non-commercial restriction (spelled `non-commercial`, `noncommercial`, `non commercial`, `no commercial`, `not for commercial`, `commercial use prohibited/restricted/forbidden/not permitted/not allowed`, or a standalone `nc` token) must not yield `commercial_use=true`; the negation guard in the implementation shape routes it to the step-4 fallback. The trade-off is accepted and deliberate: a legitimate permissive grant whose prose merely mentions non-commercial terms alongside the family token (for example "MIT; no commercial restrictions") is also demoted to the caution path. Failing toward caution is the contract.
 
 Exact fallback (current step 4, keep behavior and warning text unless a trivial wording fix is required for accuracy):
 
@@ -132,7 +132,7 @@ Required self-check (or pytest) probes, mapped 1:1 to Success criteria:
 |---|---|---|
 | False positive | `limitations of liability apply` | not Tier 2; `commercial_use is False`; tier 3 |
 | False positive | `reviewed by committee` | not Tier 2; `commercial_use is False`; tier 3 |
-| False positive | `may be distributed under site terms` | not Tier 2; `commercial_use is False`; tier 3 |
+| Token-free regression guard | `may be distributed under site terms` (no family token; stays tier 3 under old and new code) | not Tier 2; `commercial_use is False`; tier 3 |
 | True grant | `MIT` | Tier 2, `commercial_use=True`, `share_alike=False`, `attribution_required=True` |
 | True grant | `Apache 2.0` | same Tier 2 shape |
 | True grant | `BSD 3-Clause` (and/or `BSD-3-Clause`) | same Tier 2 shape |
