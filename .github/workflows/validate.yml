@@ -1,8 +1,10 @@
 name: validate
 
-# Self-contained content-integrity gate. Inline bash + python3 stdlib only.
-# Does NOT execute any checked-out repository code (reads files only) and runs on
-# pull_request (not pull_request_target), so a fork PR cannot gain write access.
+# Content-integrity and test gates. The `integrity` job uses inline bash +
+# python3 stdlib only, does NOT execute checked-out repository code (reads
+# files only) apart from scripts/check_release.py, and runs on pull_request
+# (not pull_request_target) so a fork PR cannot gain write access. The `tests`
+# job executes repository code read-only on pull_request with no secrets.
 
 on:
   push:
@@ -83,3 +85,33 @@ jobs:
 
       - name: Release gate (RR-B-15)
         run: python3 scripts/check_release.py
+
+  tests:
+    runs-on: ubuntu-latest
+    permissions: read-all
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install package and pytest
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[all]" pytest
+
+      - name: Pytest suite
+        run: pytest -q
+
+      - name: Tools self-check
+        run: |
+          for t in vet_source check_overlap outline validate_pack pack_eval; do
+              python3 tools/$t.py --self-check
+          done
+
+      - name: Compile smoke
+        run: python3 -m py_compile tools/*.py scripts/extract.py
