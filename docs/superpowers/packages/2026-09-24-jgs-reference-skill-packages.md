@@ -176,7 +176,7 @@ Prose-check exception: residual `spaced-double-hyphen` flags are literal CLI opt
 | id / name | P6 · release-info-real-commit |
 | size | S |
 | deps | none |
-| status | ready |
+| status | in-flight |
 | corroboration | 1 (value) |
 | provenance | value/refresh-release-info-source-commit |
 | promoted_ids | (first run: none) |
