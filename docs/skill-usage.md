@@ -43,8 +43,9 @@ a citation-only signpost instead.
 3. **Outline** deterministically (`tools/outline.py`) → exact chapter offsets.
 4. **Scaffold** provenance (`tools/build_pack.py`) → `PACK.yaml` + `LICENSE`.
 5. **Generate** citation-grounded chapters + glossary/patterns/cheatsheet + `SKILL.md`.
-6. **Verify** three gates: `check_overlap.py` (no verbatim), `validate_pack.py`
-   (structure + tier), `pack_eval.py` (index routes are grounded).
+6. **Verify** four gates: `check_overlap.py` (no verbatim), `validate_pack.py`
+   (structure + tier), `pack_eval.py` (index routes are grounded),
+   `scan_generated_skill.py` (prompt-injection / unsafe-authority scan).
 
 A produced pack drops straight into
 [jgs-se-knowledge-packs](https://github.com/jgsystemsconsulting/jgs-se-knowledge-packs)
@@ -56,8 +57,11 @@ Every tool is stdlib-only and self-testing:
 
 ```bash
 python tools/vet_source.py --title "NASA SE Handbook" --publisher "NASA" --license "Public Domain (US Government work)"
-python tools/outline.py --source /tmp/book_skill_work/full_text.txt --out outline.json
-python tools/check_overlap.py --source /tmp/book_skill_work/full_text.txt --pack packs/<slug>
+# full_text.txt lives under BOOK_SKILL_WORKDIR if set, else tempfile.gettempdir()/book_skill_work
+# (Windows: %TEMP%\book_skill_work)
+python tools/outline.py --source <workdir>/full_text.txt --out outline.json
+python tools/check_overlap.py --source <workdir>/full_text.txt --pack packs/<slug>
 python tools/validate_pack.py packs/<slug>
 python tools/pack_eval.py --pack packs/<slug>
+python tools/scan_generated_skill.py packs/<slug>
 ```

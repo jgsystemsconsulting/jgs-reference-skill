@@ -102,18 +102,22 @@ python3 tools/build_pack.py --slug nasa-se-handbook \
     --license "Public Domain (US Government work)"
 
 # 3. Extract + outline, then generate the pack (agent follows SKILL.md)
+# Extract writes to tempfile.gettempdir()/book_skill_work by default
+# (Windows: under %TEMP%), or $BOOK_SKILL_WORKDIR when set.
 python3 scripts/extract.py path/to/source.pdf --mode technical
-python3 tools/outline.py --source /tmp/book_skill_work/full_text.txt --out outline.json
+WORKDIR="${BOOK_SKILL_WORKDIR:-$(python -c "import tempfile, pathlib; print(pathlib.Path(tempfile.gettempdir()) / 'book_skill_work')")}"
+python3 tools/outline.py --source "$WORKDIR/full_text.txt" --out outline.json
 
 # 4. Verify before publishing: all four must pass
-python3 tools/check_overlap.py --source /tmp/book_skill_work/full_text.txt --pack packs/nasa-se-handbook
+python3 tools/check_overlap.py --source "$WORKDIR/full_text.txt" --pack packs/nasa-se-handbook
 python3 tools/validate_pack.py packs/nasa-se-handbook
 python3 tools/pack_eval.py --pack packs/nasa-se-handbook
 python3 tools/scan_generated_skill.py packs/nasa-se-handbook
 ```
 
-As an agent skill, install it where your host discovers skills (e.g.
-`~/.claude/skills/jgs-reference-skill/`) and drive it conversationally (see
+As an agent skill, install it where your host discovers skills (default
+`~/.claude/skills/jgs/jgs-reference-skill/`; `--flat` drops the `jgs/` segment)
+and drive it conversationally (see
 [SKILL.md](SKILL.md)). It vets, extracts, outlines, scaffolds, generates, and runs
 the four gates for you.
 
