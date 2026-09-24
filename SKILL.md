@@ -113,7 +113,9 @@ python3 <SKILL_DIR>/scripts/extract.py $INPUT_PATHS --mode <technical|text> --in
 
 `technical` (Docling, structure-aware: tables/code/formulas) for standards and
 handbooks; `text` (fast) for prose. Output lands in
-`<tempdir>/book_skill_work/{full_text.txt,metadata.json}`. Read `metadata.json`
+`<tempdir>/book_skill_work/{full_text.txt,metadata.json}`
+(`BOOK_SKILL_WORKDIR` if set, else `tempfile.gettempdir()/book_skill_work`;
+on Windows the default is under `%TEMP%`). Read `metadata.json`
 for pages/words/tokens and present a quick cost estimate before generating.
 
 ## Step 3: Outline deterministically

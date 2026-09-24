@@ -18,7 +18,9 @@ unchanged); others need a **format transform** into their own prompt/rule conven
 
 `<ns>` is the vendor namespace (`jgs` by default; `--flat` drops it). `--agent all`
 installs to every **user-global** agent. Cursor is project-local, so run it separately
-inside the project you want it in.
+inside the project you want it in. `--namespace` must be a single kebab-case token
+(lowercase letters, digits, hyphens); no `..`, no absolute path, no Windows reserved
+device names.
 
 ## Important limitation for transform agents
 
