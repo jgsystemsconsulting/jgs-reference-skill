@@ -29,7 +29,7 @@ The data defect is fixed. The process defect is not.
 `scripts/check_release.py` is the RR-B-15 release gate invoked by `.github/workflows/validate.yml` (`Release gate (RR-B-15)` step). Today it only:
 
 1. Asserts a fixed list of required paths exist (including `RELEASE-INFO.txt` as a file).
-2. Scans tracked text-ish files for forbidden content (private-key blocks, the split CONFIDENTIAL sentinel).
+2. Scans tracked text-ish files for forbidden content (private-key blocks, and the split confidentiality sentinel described below).
 3. Requires `Copyright (c)` and `SPDX-License-Identifier` in the first 600 bytes of first-party tracked `*.py`.
 
 It never opens `RELEASE-INFO.txt` for field content. A parallel integrity step (RR-S-11 version consistency) only regex-reads the `Version:` line and compares it to CHANGELOG / pyproject / plugin.json. Neither step looks at `Source-Commit:`.
