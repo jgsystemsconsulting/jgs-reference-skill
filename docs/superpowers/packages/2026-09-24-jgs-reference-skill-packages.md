@@ -114,7 +114,7 @@ Prose-check exception: residual `spaced-double-hyphen` flags are literal CLI opt
 | id / name | P4 · step9-verify-gates |
 | size | M |
 | deps | P2, P1 |
-| status | in-flight |
+| status | done |
 | corroboration | 3 (value, risk, cohesion) |
 | provenance | value/pack-eval-fail-empty-topic-index, risk/licence-and-verify-false-greens, cohesion/step9-verify-gates |
 | promoted_ids | (first run: none) |
