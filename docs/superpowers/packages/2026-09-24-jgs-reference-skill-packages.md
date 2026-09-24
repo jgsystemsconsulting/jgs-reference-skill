@@ -204,7 +204,7 @@ Prose-check exception: residual `spaced-double-hyphen` flags are literal CLI opt
 | id / name | P7 · jgs-motion-pack |
 | size | M |
 | deps | none (independent, user-scope) |
-| status | ready |
+| status | done |
 | corroboration | user direction at the 2026-09-24 proposal stop (all three lenses had killed it as out-of-repo; the user picked it anyway, so it lands here as a package) |
 | provenance | backlog b-01 (user intent, package-loop r1 §3) |
 | promoted_ids | b-01 |
