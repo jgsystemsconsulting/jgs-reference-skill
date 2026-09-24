@@ -144,7 +144,7 @@ Prose-check exception: residual `spaced-double-hyphen` flags are literal CLI opt
 | id / name | P5 · install-containment-and-docs |
 | size | M |
 | deps | none (order position 5 by triage) |
-| status | ready |
+| status | done |
 | corroboration | 2 (risk, cohesion) |
 | provenance | risk/install-force-path-containment, cohesion/install-path-docs-surface |
 | promoted_ids | (first run: none) |
