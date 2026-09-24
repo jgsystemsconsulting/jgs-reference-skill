@@ -199,7 +199,7 @@ the toolkit) → `## Chapter Index` (table linking every `chapters/chNN-*.md`) �
 on + which source version). Frontmatter `name:` must equal `<slug>`; `description`
 must state coverage **and** scope limits.
 
-## Step 9: VERIFY (three gates, all must pass)
+## Step 9: VERIFY (four gates, all must pass)
 
 ```bash
 # (a) licence-safety + quality: no verbatim passages lifted from the source
@@ -208,16 +208,23 @@ python3 <SKILL_DIR>/tools/check_overlap.py --source <full_text.txt> --pack packs
 python3 <SKILL_DIR>/tools/validate_pack.py packs/<slug>
 # (c) index truth: every Topic-Index route is grounded in the chapter it points to
 python3 <SKILL_DIR>/tools/pack_eval.py --pack packs/<slug>
+# (d) generated-skill injection / unsafe-authority scan
+python3 <SKILL_DIR>/tools/scan_generated_skill.py packs/<slug>
 ```
 
 Any verbatim overlap → paraphrase and re-run (this is the by-hand fix, automated).
-Any validate failure → fix structure/provenance. Any mis-route → fix the index.
-Do not report the pack as done until all three are green.
+Any validate failure → fix structure/provenance. Any missing or empty Topic Index →
+add real `- **Term** → chNN` routes (pack_eval exits 3 until the index is
+parseable). Any mis-route → fix the index (exit 4). Any scan finding (exit 1) or
+scan error (exit 2) → reword the flagged passage and re-run; there is no bypass
+flag. A `scan-waiver:` note in PACK.yaml may record why a known rule fired, but
+waivers never silence the scanner or change its exit code. Do not report the pack
+as done until all four are green.
 
 ## Step 10: Report & clean up
 
 Remove `<tempdir>/book_skill_work/`. Report: pack path, source + tier, chapter
-count, the three gate results, and how to install (`cp -r packs/<slug>
+count, the four gate results, and how to install (`cp -r packs/<slug>
 ~/.claude/skills/<slug>`).
 
 ---
@@ -233,8 +240,10 @@ content reproduced:
 - `packs/<slug>/SKILL.md` listing, per source: designation, title, one-line
   purpose, owning body, redistributability status, and the official catalogue/deed
   URL **only where the licence permits citation**. No transformed source text.
-- Validate with `validate_pack.py` (it applies the reduced signpost rubric; no
-  `chapters/` required).
+- Validate with `validate_pack.py` (reduced signpost rubric; no `chapters/`
+  required). Also run `scan_generated_skill.py` on the signpost directory
+  (citation SKILL.md is still agent-loaded text). Do not run `check_overlap.py`
+  or `pack_eval.py` on signposts (no source extract, no chapter router).
 
 This is how authoritative-but-paywalled standards (ISO/IEC/IEEE, OMG, INCOSE) are
 honoured without breaching their terms.
