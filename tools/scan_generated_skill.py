@@ -1,7 +1,12 @@
 #!/usr/bin/env python3
 # Copyright (c) 2026 JG Systems Consulting Ltd. See LICENSE.
 # SPDX-License-Identifier: MIT
-"""Advisory scan for prompt injection and unsafe authority in generated skills."""
+"""Advisory scan for prompt injection and unsafe authority in generated skills.
+
+Gate-required in SKILL.md Step 9 for full packs (and signpost workflow):
+non-zero exit fails publish. Findings still need human review in context;
+there is no automated bypass.
+"""
 
 from __future__ import annotations
 
