@@ -24,7 +24,7 @@ Prose-check exception: residual `spaced-double-hyphen` flags are literal CLI opt
 | id / name | P1 · ci-pytest-tool-gates |
 | size | M |
 | deps | none |
-| status | in-flight |
+| status | done |
 | corroboration | 3 (value, risk, cohesion) |
 | provenance | value/ci-run-suite-and-tool-gates, risk/ci-run-pytest-and-tool-gates, cohesion/ci-pytest-contributor-loop |
 | promoted_ids | (first run: none) |
@@ -55,7 +55,7 @@ Prose-check exception: residual `spaced-double-hyphen` flags are literal CLI opt
 | id / name | P2 · pack-scaffold-provenance |
 | size | M |
 | deps | none |
-| status | ready |
+| status | done |
 | corroboration | 3 (value, risk, cohesion) |
 | provenance | value/harden-build-pack-scaffold, risk/build-pack-path-yaml-harden, cohesion/pack-scaffold-provenance |
 | promoted_ids | (first run: none) |
