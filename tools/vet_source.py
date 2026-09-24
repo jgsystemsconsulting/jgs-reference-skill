@@ -69,6 +69,12 @@ US_GOV = ("nasa", "nist", "department of defense", "dod", "ousd", "faa", "gao",
 PD_LICENSE = ("public domain", "17 u.s.c", "us government work", "u.s. government work",
               "distribution statement a", "distribution a", "cc0", "publicdomain")
 
+_PERMISSIVE_FAMILY = re.compile(r"\b(?:mit|apache|(?:free\s*)?bsd)\b")
+_NEGATION = re.compile(
+    r"\bnon[\s_-]*commercial\b|\bno[\s_-]*commercial\b|\bnot\s+for\s+commercial\b"
+    r"|\bcommercial\s+use\s+(?:is\s+)?(?:prohibited|restricted|forbidden|not\s+permitted|not\s+allowed)\b"
+    r"|\bnc\b")  # boundary-anchored: the standalone token, never the nc inside licence
+
 
 def classify(title: str, publisher: str, license_str: str) -> dict:
     """Return a verdict dict. `excluded` True means hard-stop."""
@@ -102,7 +108,9 @@ def classify(title: str, publisher: str, license_str: str) -> dict:
                                       "written justification in PACK.yaml."])
         return _verdict(tier=2, commercial_use="nc" not in comps, share_alike="sa" in comps,
                         attribution_required=True)
-    if any(k in lic for k in ("mit", "apache", "bsd")):
+    # A negated grant ("non-commercial MIT variant") must NOT return
+    # commercial_use=True: it falls through to the step-4 caution path.
+    if _PERMISSIVE_FAMILY.search(lic) and not _NEGATION.search(lic):
         return _verdict(tier=2, commercial_use=True, share_alike=False,
                         attribution_required=True)
 
@@ -139,6 +147,34 @@ def _self_check() -> int:
         ("SEBoK", "BKCASE / Stevens", "CC BY-NC-SA 3.0", False, 2),
         ("Some Guide", "Author", "CC BY-ND 4.0", False, 3),
         ("Mystery Doc", "Random Blog", "freely available", False, 3),
+        # False positives / token-free (SC1, SC2) → tier 3
+        ("Some Guide", "Author", "limitations of liability apply", False, 3),
+        ("Some Guide", "Author", "reviewed by committee", False, 3),
+        ("Some Guide", "Author", "may be distributed under site terms", False, 3),
+        # True grants (SC3) → tier 2
+        ("Some Guide", "Author", "MIT", False, 2),
+        ("Some Guide", "Author", "Apache 2.0", False, 2),
+        ("Some Guide", "Author", "BSD 3-Clause", False, 2),
+        ("Some Guide", "Author", "MIT-style", False, 2),
+        ("Some Guide", "Author", "FreeBSD license", False, 2),
+        # Licence spelling must not trip \bnc\b (probe table / SC3)
+        ("Some Guide", "Author", "MIT licence", False, 2),
+        ("Some Guide", "Author", "Apache Licence 2.0", False, 2),
+        # Synthetic embedded bsd hosts (spec Goal 1 non-matches) → tier 3
+        ("Some Guide", "Author", "xxbsdxx terms", False, 3),
+        ("Some Guide", "Author", "bsdlike arrangement", False, 3),
+        # Negated grants (SC3b) → caution path tier 3
+        ("Some Guide", "Author", "MIT for non-commercial use only", False, 3),
+        ("Some Guide", "Author", "noncommercial MIT variant", False, 3),
+        ("Some Guide", "Author", "MIT, commercial use prohibited", False, 3),
+        ("Some Guide", "Author", "MIT; no commercial restrictions", False, 3),
+        ("Some Guide", "Author", "MIT NC", False, 3),
+        ("Some Guide", "Author", "licence nc only", False, 3),
+        ("Some Guide", "Author", "MIT, commercial use not allowed", False, 3),
+        # Excluded unchanged (SC4) — reasons asserted separately below if needed
+        ("AFOTEC CERT Guide", "AFOTEC", "", True, None),
+        ("Defense Acquisition Guidebook", "DoD", "", True, None),
+        ("SEI Technical Report", "Carnegie Mellon", "", True, None),
     ]
     ok = True
     for title, pub, lic, exp_excl, exp_tier in cases:
@@ -150,6 +186,16 @@ def _self_check() -> int:
     # NC + SA must propagate
     sebok = classify("SEBoK", "Stevens", "CC BY-NC-SA 3.0")
     assert sebok["commercial_use"] is False and sebok["share_alike"] is True, sebok
+    # True grant shape locks beyond tier alone
+    mit = classify("Some Guide", "Author", "MIT")
+    assert (
+        mit["license_tier"] == 2
+        and mit["commercial_use"] is True
+        and mit["share_alike"] is False
+        and mit["attribution_required"] is True
+    ), mit
+    neg = classify("Some Guide", "Author", "MIT for non-commercial use only")
+    assert neg["license_tier"] == 3 and neg["commercial_use"] is False, neg
     print("vet_source self-check:", "PASS" if ok else "FAIL")
     return 0 if ok else 1
 
