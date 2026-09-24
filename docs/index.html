@@ -1,5 +1,6 @@
 <!doctype html>
-<!-- Copyright (c) 2026 JG Systems Consulting Ltd. MIT License. SPDX-License-Identifier: MIT -->
+<!-- Copyright (c) 2026 JG Systems Consulting Ltd. Source: https://github.com/jgsystemsconsulting/jgs-reference-skill. See LICENSE. -->
+<!-- SPDX-License-Identifier: MIT -->
 <html lang="en">
 <head>
 <meta charset="utf-8">
@@ -8,95 +9,25 @@
 <title>jgs-reference-skill: authoritative source to citable knowledge pack</title>
 <meta name="description" content="Convert a vetted authoritative source (standard, handbook, guidebook) into a licence-clean, citable knowledge pack. Vets the source's licence first and refuses non-redistributable sources.">
 <link rel="canonical" href="https://jgsystemsconsulting.github.io/jgs-reference-skill/">
-<link rel="icon" href="data:,">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="stylesheet" href="site.css">
 
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://jgsystemsconsulting.github.io/jgs-reference-skill/">
 <meta property="og:title" content="jgs-reference-skill">
 <meta property="og:description" content="Vetted authoritative sources into licence-clean, citable knowledge packs. A fork of book-to-skill with a licence-vet gate, provenance, and verbatim-overlap detection.">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://jgsystemsconsulting.github.io/jgs-reference-skill/images/og/og-reference-skill-1200.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="jgs-reference-skill">
 <meta name="twitter:description" content="Vetted authoritative sources into licence-clean, citable knowledge packs.">
-<style>
-@font-face{font-family:'JetBrains Mono';font-weight:400;font-style:normal;font-display:swap;src:url('fonts/jetbrains-mono-400.woff2') format('woff2');}
-@font-face{font-family:'JetBrains Mono';font-weight:700;font-style:normal;font-display:swap;src:url('fonts/jetbrains-mono-700.woff2') format('woff2');}
-@font-face{font-family:'Inter';font-weight:400;font-style:normal;font-display:swap;src:url('fonts/inter-400.woff2') format('woff2');}
-@font-face{font-family:'Inter';font-weight:600;font-style:normal;font-display:swap;src:url('fonts/inter-600.woff2') format('woff2');}
-:root{
-  --ink:#0a0a0b; --ink-2:#111113; --ink-3:#16171a; --ink-4:#1e2024;
-  --line:#2a2d33; --line-2:#3a3e46;
-  --mute:#6b7078; --mute-2:#8b9099;
-  --text:#c7ccd3; --text-hi:#e8ebf0;
-  --paper:#f4f2ec; --paper-ink:#0a0a0b;
-  --mono:'JetBrains Mono',ui-monospace,'SFMono-Regular',Menlo,Consolas,monospace;
-  --sans:'Inter',ui-sans-serif,system-ui,sans-serif;
-  --pad-x:clamp(24px,4vw,80px); --pad-section:clamp(48px,6vw,96px);
-}
-*{box-sizing:border-box;margin:0;padding:0;}
-html{background:var(--ink);}
-body{background:var(--ink);color:var(--mute-2);font:400 16px/1.7 var(--sans);-webkit-font-smoothing:antialiased;}
-.wrap{max-width:1200px;margin:0 auto;padding:0 var(--pad-x);}
-a{color:var(--text-hi);text-decoration:none;border-bottom:1px solid var(--line-2);}
-a:hover{border-color:var(--paper);}
-:focus-visible{outline:2px solid var(--paper);outline-offset:2px;}
-.label{font:700 .6875rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
-h1,h2,h3{color:var(--text-hi);font-family:var(--mono);font-weight:700;letter-spacing:-0.02em;}
-
-/* Masthead */
-.masthead{border-bottom:1px solid var(--line);}
-.masthead .wrap{display:flex;flex-wrap:wrap;gap:1rem 2rem;padding-top:14px;padding-bottom:14px;}
-.masthead span{font:700 .625rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
-.masthead b{color:var(--text);font-weight:700;}
-
-/* Hero */
-.hero{padding:var(--pad-section) 0;border-bottom:1px solid var(--line);}
-.hero h1{font-size:clamp(2rem,5vw,3.5rem);line-height:1.05;margin-bottom:1.25rem;}
-.hero p{max-width:62ch;font-size:1.0625rem;color:var(--text);}
-.hero .sub{margin-top:.5rem;color:var(--mute-2);}
-.cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:2rem;}
-.btn{font:700 .8125rem/1 var(--mono);letter-spacing:.06em;text-transform:uppercase;padding:14px 20px;border:1px solid var(--line);display:inline-flex;gap:.6em;align-items:center;transition:background .15s,border-color .15s,color .15s;}
-.btn-primary{background:var(--paper);color:var(--paper-ink);border-color:var(--paper);}
-.btn-primary:hover{background:#fff;}
-.btn-ghost{background:transparent;color:var(--text-hi);}
-.btn-ghost:hover{border-color:var(--paper);}
-
-/* Sections */
-section{padding:var(--pad-section) 0;border-bottom:1px solid var(--line);}
-.shead{margin-bottom:2rem;}
-.shead .label{display:block;margin-bottom:.6rem;}
-.shead h2{font-size:clamp(1.4rem,3vw,2rem);}
-.lead{max-width:70ch;color:var(--text);}
-
-/* Grid of cells (1px gaps render as hairlines) */
-.grid{display:grid;gap: 1px;background:var(--line);border:1px solid var(--line);}
-.g3{grid-template-columns:repeat(3,1fr);}
-.g2{grid-template-columns:repeat(2,1fr);}
-.cell{background:var(--ink-2);padding:24px;}
-.cell h3{font-size:.95rem;margin-bottom:.5rem;}
-.cell p{font-size:.9375rem;color:var(--mute-2);}
-.num{font:700 3rem/1 var(--mono);color:var(--line-2);display:block;margin-bottom:.5rem;}
-.cell code{font:400 .8125rem var(--mono);color:var(--text);}
-
-/* Code block (drafting-sheet) */
-.sheet{background:var(--ink-2);border:1px solid var(--line);padding:24px;overflow:auto;}
-.sheet pre{font:400 .875rem/1.7 var(--mono);color:var(--text);white-space:pre;}
-.sheet .c{color:var(--mute);}
-
-/* Footer title-block */
-footer{padding:var(--pad-section) 0;}
-.tblock{display:grid;grid-template-columns:repeat(3,1fr);gap: 1px;background:var(--line);border:1px solid var(--line);}
-.tblock div{background:var(--ink-2);padding:18px 24px;}
-.tblock .label{display:block;margin-bottom:.4rem;}
-.tblock b{color:var(--text);font:700 .875rem var(--mono);}
-.foot-note{margin-top:1.5rem;font:400 .8125rem/1.6 var(--mono);color:var(--mute);}
-
-@media (max-width:860px){
-  .g3,.g2,.tblock{grid-template-columns:1fr;}
-}
-@media (prefers-reduced-motion:reduce){
-  *{transition:none!important;}
-}
-</style>
+<meta name="twitter:image" content="https://jgsystemsconsulting.github.io/jgs-reference-skill/images/og/og-reference-skill-1200.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"jgs-reference-skill","applicationCategory":"DeveloperApplication","operatingSystem":"Any","softwareVersion":"0.2.1","license":"https://github.com/jgsystemsconsulting/jgs-reference-skill/blob/main/LICENSE","url":"https://jgsystemsconsulting.github.io/jgs-reference-skill/","codeRepository":"https://github.com/jgsystemsconsulting/jgs-reference-skill","author":{"@type":"Organization","name":"JG Systems Consulting Ltd"}}
+</script>
 </head>
 <body>
 
@@ -104,16 +35,19 @@ footer{padding:var(--pad-section) 0;}
   <span>CLASSIFICATION: <b>PUBLIC</b></span>
   <span>LICENCE: <b>MIT</b></span>
   <span>DOC-ID: <b>JGS-REF-SKILL</b></span>
-  <span>REV <b>0.2.0</b></span>
-  <nav aria-label="Primary" style="margin-left:auto;display:flex;flex-wrap:wrap;gap:1rem">
-    <a href="#what-it-is">What it is</a>
-    <a href="#pipeline">Pipeline</a>
-    <a href="#different">Different</a>
-    <a href="#agents">Agents</a>
-    <a href="#install">Install</a>
-    <a href="#use">Use it</a>
-  </nav>
+  <span>REV <b>0.2.1</b></span>
 </div></header>
+
+<nav class="site" aria-label="Site"><div class="wrap">
+  <a class="brand" href="index.html" aria-label="JG Systems Consulting home"><img src="images/jgs-emblem.png" alt="" width="28" height="28"></a>
+  <a href="#what-it-is">What it is</a>
+  <a href="#pipeline">Pipeline</a>
+  <a href="#different">Different</a>
+  <a href="#agents">Agents</a>
+  <a href="#install">Install</a>
+  <a href="#use">Use it</a>
+  <a href="https://github.com/jgsystemsconsulting/jgs-reference-skill">Repository</a>
+</div></nav>
 
 <main>
 <div class="hero"><div class="wrap">
@@ -139,7 +73,7 @@ footer{padding:var(--pad-section) 0;}
     <div class="cell"><span class="num">03</span><h3>outline</h3><p>Deterministic table of contents with exact char/line offsets, so chapters are sliced precisely, not by ad-hoc grep.</p></div>
     <div class="cell"><span class="num">04</span><h3>build_pack</h3><p>Vet-gated scaffold writes <code>PACK.yaml</code> provenance and a per-pack <code>LICENSE</code> carrying the source's terms.</p></div>
     <div class="cell"><span class="num">05</span><h3>generate</h3><p>Citation-grounded chapters plus glossary, patterns, cheatsheet, and the pack's own <code>SKILL.md</code> index.</p></div>
-    <div class="cell"><span class="num">06</span><h3>verify</h3><p>Three gates: no verbatim overlap, valid structure + tier, and every topic-index route grounded in its chapter.</p></div>
+    <div class="cell"><span class="num">06</span><h3>verify</h3><p>Four gates: <code>check_overlap</code>, <code>validate_pack</code>, <code>pack_eval</code>, <code>scan_generated_skill</code> (overlap, pack structure, index truth, injection scan).</p></div>
   </div>
 </div></section>
 
@@ -184,18 +118,18 @@ python install.py --list-agents   <span class="c"># show each target + format</s
 /jgs-reference-skill vet "SysML" published by the Object Management Group
 <span class="c"># fold a new document into an existing pack</span>
 /jgs-reference-skill add NIST SP 800-160 Vol 2 to my nist-sse pack</pre></div>
-  <p class="lead" style="margin-top:1.5rem">The skill runs the whole pipeline for you: vet, extract, outline, scaffold, generate, and the three verification gates. Prefer to run the tools by hand? Every step is a stdlib script with a <code>--self-check</code>. See the <a href="https://github.com/jgsystemsconsulting/jgs-reference-skill/blob/main/docs/skill-usage.md">usage guide</a> for the full reference.</p>
+  <p class="lead" style="margin-top:1.5rem">The skill runs the whole pipeline for you: vet, extract, outline, scaffold, generate, and the four verification gates (<code>check_overlap</code>, <code>validate_pack</code>, <code>pack_eval</code>, <code>scan_generated_skill</code>). Prefer to run the tools by hand? The pipeline scripts that ship <code>--self-check</code> can prove themselves that way; <code>scan_generated_skill</code> is still a required gate and has no <code>--self-check</code>. See the <a href="https://github.com/jgsystemsconsulting/jgs-reference-skill/blob/main/docs/skill-usage.md">usage guide</a> for the full reference.</p>
 </div></section>
 </main>
 
 <footer><div class="wrap">
   <div class="tblock">
     <div><span class="label">Product</span><b>jgs-reference-skill</b></div>
-    <div><span class="label">Rev</span><b>0.2.0</b></div>
+    <div><span class="label">Rev</span><b>0.2.1</b></div>
     <div><span class="label">Licence</span><b>MIT</b></div>
     <div><span class="label">Repository</span><b><a href="https://github.com/jgsystemsconsulting/jgs-reference-skill">github.com/jgsystemsconsulting</a></b></div>
     <div><span class="label">Engine</span><b>book-to-skill (MIT)</b></div>
-    <div><span class="label">Owner</span><b>JG Systems Consulting Ltd.</b></div>
+    <div><span class="label">Owner</span><b>JG Systems Consulting Ltd</b></div>
   </div>
   <p class="foot-note">&copy; 2026 JG Systems Consulting Ltd. Tooling licensed under MIT. Produced knowledge packs carry their source's own licence. Extraction engine vendored from book-to-skill, &copy; 2025 virgiliojr94 (MIT). No purchase or licence key needed to use this tooling; for commercial licensing questions see <a href="https://labs.jgsystemsconsulting.com/licensing.html">licensing enquiries</a>.</p>
 </div></footer>
