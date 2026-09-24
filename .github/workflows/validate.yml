@@ -62,22 +62,45 @@ jobs:
         run: |
           python3 - <<'PY'
           import re, json, sys, pathlib
+          def read(p):
+              q = pathlib.Path(p)
+              return q.read_text(encoding='utf-8') if q.is_file() else None
           def changelog_top():
-              t = pathlib.Path('CHANGELOG.md').read_text(encoding='utf-8')
-              m = re.search(r'^##\s*\[?v?(\d+\.\d+\.\d+)', t, re.M)
-              return m.group(1) if m else None
+              t = read('CHANGELOG.md')
+              if not t:
+                  return None
+              for m in re.finditer(r'^##\s*\[?v?(\d+\.\d+\.\d+)', t, re.M):
+                  return m.group(1)  # first released semver; skips '## [Unreleased]'
+              return None
           def release_info():
-              t = pathlib.Path('RELEASE-INFO.txt').read_text(encoding='utf-8')
-              m = re.search(r'^Version:\s*(\d+\.\d+\.\d+)', t, re.M)
+              m = re.search(r'^Version:\s*(\d+\.\d+\.\d+)', read('RELEASE-INFO.txt') or '', re.M)
               return m.group(1) if m else None
           def pyproject():
-              t = pathlib.Path('pyproject.toml').read_text(encoding='utf-8')
-              m = re.search(r'^version\s*=\s*"(\d+\.\d+\.\d+)"', t, re.M)
+              m = re.search(r'^version\s*=\s*"(\d+\.\d+\.\d+)"', read('pyproject.toml') or '', re.M)
               return m.group(1) if m else None
-          def plugin():
-              return json.loads(pathlib.Path('.claude-plugin/plugin.json').read_text(encoding='utf-8')).get('version')
+          def plugin(p):
+              t = read(p)
+              return json.loads(t).get('version') if t else None
+          def citation():
+              m = re.search(r'^version:\s*(\d+\.\d+\.\d+)', read('CITATION.cff') or '', re.M)
+              return m.group(1) if m else None
+          def readme_badge():
+              m = re.search(r'version-(\d+\.\d+\.\d+)-informational', read('README.md') or '')
+              return m.group(1) if m else None
+          def readme_prompt():
+              m = re.search(r'jgs-reference-skill[^\n]*\(v(\d+\.\d+\.\d+)\)', read('README.md') or '')
+              return m.group(1) if m else None
+          def landing():
+              t = read('docs/index.html') or ''
+              vals = set(re.findall(r'"softwareVersion":\s*"(\d+\.\d+\.\d+)"', t))
+              vals |= set(re.findall(r'REV <b>(\d+\.\d+\.\d+)</b>', t))
+              return vals.pop() if len(vals) == 1 else (None if not vals else ';'.join(sorted(vals)))
           vals = {'CHANGELOG': changelog_top(), 'RELEASE-INFO': release_info(),
-                  'pyproject': pyproject(), 'plugin.json': plugin()}
+                  'pyproject': pyproject(), 'plugin.json': plugin('.claude-plugin/plugin.json'),
+                  'CITATION.cff': citation(), 'README badge': readme_badge(),
+                  'README prompt': readme_prompt(), 'landing': landing(),
+                  'cursor plugin.json': plugin('.cursor-plugin/plugin.json'),
+                  'gemini-extension.json': plugin('gemini-extension.json')}
           print(vals)
           uniq = set(v for v in vals.values() if v)
           if None in vals.values() or len(uniq) != 1:

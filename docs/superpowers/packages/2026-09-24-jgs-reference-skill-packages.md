@@ -260,7 +260,7 @@ Prose-check exception: residual `spaced-double-hyphen` flags are literal CLI opt
 | id / name | P9 · release-repo-standard-pass |
 | size | M |
 | deps | P1-P8 (audits the finished tree) |
-| status | ready |
+| status | in-flight |
 | corroboration | user direction, 2026-09-24 superpowers-process invoke |
 | provenance | user direction at proposal stop ("also run release stand on repo") |
 | promoted_ids | (none) |

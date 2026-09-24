@@ -6,7 +6,8 @@
 
 | Version | Supported |
 |---------|-----------|
-| 0.1.x   | ✅ |
+| 0.2.x   | yes |
+| 0.1.x   | no |
 
 Only the latest released `0.x` line receives security fixes.
 

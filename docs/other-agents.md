@@ -24,6 +24,11 @@ device names.
 
 ## Important limitation for transform agents
 
+**Codex note:** the prompts-path target (`~/.codex/prompts/jgs-reference-skill.md`)
+is the deliberate, supported Codex install today. A native agents-skills folder
+install (the `~/.agents/skills/...` convention) is a possible follow-up; it is not
+required for this release and `install.py` behaviour is unchanged.
+
 Native installs copy the **whole skill**, including its Python tools
 (`tools/*.py`, `scripts/extract.py`), so the full vet → extract → outline → verify
 pipeline works.

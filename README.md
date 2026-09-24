@@ -3,7 +3,7 @@
 # jgs-reference-skill
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version](https://img.shields.io/badge/version-0.2.0-informational.svg)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.2.1-informational.svg)](CHANGELOG.md)
 [![Skills](https://img.shields.io/badge/skills-1-informational.svg)](SKILL.md)
 [![Tested with Claude Code](https://img.shields.io/badge/tested%20with-Claude%20Code-6e56cf.svg)](https://claude.com/claude-code)
 
@@ -61,7 +61,7 @@ Cursor (and their limitations), see [docs/other-agents.md](docs/other-agents.md)
 Paste this into Claude Code, Cursor, or another coding agent and it will install the
 skill for you:
 
-> Install the **jgs-reference-skill** agent skill (v0.2.0) from
+> Install the **jgs-reference-skill** agent skill (v0.2.1) from
 > `https://github.com/jgsystemsconsulting/jgs-reference-skill`.
 > 1. Clone the repo and read its `README.md` and `docs/skill-usage.md` first.
 > 2. Check prerequisites: Python ≥ 3.9 on `PATH`.
@@ -160,7 +160,8 @@ questions, see [labs.jgsystemsconsulting.com/licensing.html](https://labs.jgsyst
 
 ## Support
 
-- **Questions / bugs:** open an issue on the [repository](https://github.com/jgsystemsconsulting/jgs-reference-skill/issues).
+- **Bugs:** use the [Bug report](https://github.com/jgsystemsconsulting/jgs-reference-skill/issues/new?template=bug_report.yml) form.
+- **Improvements / product gaps:** use the [Improvement](https://github.com/jgsystemsconsulting/jgs-reference-skill/issues/new?template=improvement.yml) form.
 - **Security issues:** do **not** open a public issue. Report privately via a
   [GitHub security advisory](https://github.com/jgsystemsconsulting/jgs-reference-skill/security/advisories/new);
   see [SECURITY.md](SECURITY.md).

@@ -1,0 +1,10 @@
+{
+  "plugins": [
+    {
+      "name": "jgs-reference-skill",
+      "source": {"path": "./"},
+      "interface": {"displayName": "jgs-reference-skill"},
+      "description": "Turn a vetted authoritative source (a standard, handbook, guidebook, or framework) into a licence-clean, citable knowledge pack your agent loads on demand."
+    }
+  ]
+}

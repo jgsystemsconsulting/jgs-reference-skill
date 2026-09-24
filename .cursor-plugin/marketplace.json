@@ -1,0 +1,14 @@
+{
+  "name": "jgs-reference-skill",
+  "owner": {"name": "JG Systems Consulting Ltd"},
+  "metadata": {
+    "description": "Turn a vetted authoritative source (a standard, handbook, guidebook, or framework) into a licence-clean, citable knowledge pack your agent loads on demand."
+  },
+  "plugins": [
+    {
+      "name": "jgs-reference-skill",
+      "source": ".",
+      "description": "Turn a vetted authoritative source (a standard, handbook, guidebook, or framework) into a licence-clean, citable knowledge pack your agent loads on demand."
+    }
+  ]
+}

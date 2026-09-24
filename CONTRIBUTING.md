@@ -48,5 +48,15 @@ Windows is an environment limitation, not a code defect.
 
 ## Reporting bugs / security
 
-Normal bugs: open an issue. Security issues: **do not** open an issue; see
+Normal bugs: use the [Bug report](https://github.com/jgsystemsconsulting/jgs-reference-skill/issues/new?template=bug_report.yml)
+form. Product gaps and improvement ideas: use the
+[Improvement](https://github.com/jgsystemsconsulting/jgs-reference-skill/issues/new?template=improvement.yml)
+form. Security issues: **do not** open an issue; see
 [SECURITY.md](SECURITY.md).
+
+## Commit identity
+
+New commits must use the organization noreply address
+`245595077+jgsystemsconsulting@users.noreply.github.com`. Older history mixes
+upstream and personal emails; that inherited history is retained deliberately and
+is not rewritten (see [docs/DISTRIBUTION.md](docs/DISTRIBUTION.md)).
