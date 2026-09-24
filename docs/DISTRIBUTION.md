@@ -58,7 +58,7 @@ commercial licensing questions see
 Inherited upstream (book-to-skill) and personal emails remain in `git log --all`;
 that history is retained deliberately and is not rewritten in P9. **New commits
 must** use `245595077+jgsystemsconsulting@users.noreply.github.com` (recorded in
-[CONTRIBUTING.md](CONTRIBUTING.md) under Commit identity). Reviewed 2026-09-24.
+[CONTRIBUTING.md](../CONTRIBUTING.md) under Commit identity). Reviewed 2026-09-24.
 
 ## Keep / drop decisions (RR-B-35, dated 2026-09-24)
 
@@ -77,7 +77,7 @@ must** use `245595077+jgsystemsconsulting@users.noreply.github.com` (recorded in
   checked-out repository code. Since P1 the `tests` job deliberately runs pytest,
   tool `--self-check`, and `py_compile` under `pull_request` semantics with
   `permissions: read-all` and no secrets. Full dated note: see the `## [Unreleased]`
-  section of [CHANGELOG.md](CHANGELOG.md).
+  section of [CHANGELOG.md](../CHANGELOG.md).
 
 ## Diagram check (RR-B-26)
 
