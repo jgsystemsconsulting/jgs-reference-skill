@@ -36,6 +36,16 @@ dependencies install on demand (`pip install -e ".[all]"` for everything).
    the tools by exact name/flag) and `README.md`.
 4. Keep the diff minimal and the change single-purpose.
 
+## Run the CI gate locally
+
+CI (`.github/workflows/validate.yml`, `tests` job) runs the same checks:
+`pip install -e ".[all]" pytest`, then `pytest -q`, then the self-check loop
+above, then `python3 -m py_compile tools/*.py scripts/extract.py`.
+Notes: the `.[all]` install needs Python >=3.10 (docling declares `requires_python: <4.0,>=3.10` on PyPI); the symlink
+security test (`tests/test_output_dir_security.py:L35` calls `symlink_to`, which raises OSError without the Windows
+symlink privilege) needs Windows Developer Mode, so a failure of that one test on
+Windows is an environment limitation, not a code defect.
+
 ## Reporting bugs / security
 
 Normal bugs: open an issue. Security issues: **do not** open an issue; see
