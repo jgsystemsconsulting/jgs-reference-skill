@@ -2,6 +2,6 @@ Product:        jgs-reference-skill
 Version:        0.2.1
 Tag:            v0.2.1
 Built (UTC):    2026-09-24T00:00:00Z
-Source-Commit:  2328a157af175c6faed24879e3b3941c126c710b
+Source-Commit:  ff4cb7360d4c8a24e7ddc5a7ea5a13dd22beb54f
 Licence:        MIT (tooling); produced packs carry their source's licence
 Repository:     https://github.com/jgsystemsconsulting/jgs-reference-skill
