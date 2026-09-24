@@ -20,6 +20,7 @@ from __future__ import annotations
 
 import argparse
 import os
+import re
 import shutil
 import sys
 from pathlib import Path
@@ -34,10 +35,29 @@ SKILL = "jgs-reference-skill"
 NS = "jgs"
 ROOT = Path(__file__).resolve().parent
 
-# Runtime payload a native install needs (everything SKILL.md drives). Repo meta,
-# the landing page, CI, and the installers themselves are NOT shipped into the skill.
-PAYLOAD = ["SKILL.md", "scripts", "tools", "book_to_skill", "docs", "templates",
-           "LICENSE", "NOTICE", "ATTRIBUTION.md"]
+_NS_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
+_WINDOWS_RESERVED = {
+    "con", "prn", "aux", "nul",
+    *(f"com{i}" for i in range(1, 10)),
+    *(f"lpt{i}" for i in range(1, 10)),
+}
+
+# Runtime payload a native install needs (everything SKILL.md drives), including
+# pyproject.toml + README.md so `pip install -e ".[all]"` works from the installed
+# tree. Repo meta beyond that (CI, landing page, the installers themselves) stays out.
+PAYLOAD = [
+    "SKILL.md",
+    "scripts",
+    "tools",
+    "book_to_skill",
+    "docs",
+    "templates",
+    "LICENSE",
+    "NOTICE",
+    "ATTRIBUTION.md",
+    "pyproject.toml",
+    "README.md",
+]
 
 HOME = Path.home()
 
@@ -45,6 +65,53 @@ HOME = Path.home()
 def claude_home() -> Path:
     cfg = os.environ.get("CLAUDE_CONFIG_DIR")
     return Path(cfg) if cfg else HOME / ".claude"
+
+
+def validate_namespace(ns: str) -> None:
+    """Reject non-kebab or Windows-reserved --namespace values before any FS work."""
+    if not _NS_RE.fullmatch(ns):
+        msg = (
+            f"ERROR: --namespace must be kebab-case "
+            f"(lowercase letters, digits, hyphens), got: {ns!r}"
+        )
+        print(msg, file=sys.stderr)
+        raise SystemExit(1)
+    if any(s.lower() in _WINDOWS_RESERVED for s in [ns, *ns.split("-")]):
+        msg = (
+            f"ERROR: --namespace must not use a Windows reserved device name "
+            f"(con, prn, aux, nul, com1-9, lpt1-9), got: {ns!r}"
+        )
+        print(msg, file=sys.stderr)
+        raise SystemExit(1)
+
+
+def containing_root(agent: str) -> Path:
+    """Resolved directory every install target for this agent must sit strictly under."""
+    if agent == "claude":
+        return (claude_home() / "skills").resolve()
+    if agent == "openclaw":
+        return (HOME / ".openclaw" / "skills").resolve()
+    if agent == "copilot":
+        return (HOME / ".copilot" / "skills").resolve()
+    if agent == "gemini":
+        return (HOME / ".gemini" / "commands").resolve()
+    if agent == "codex":
+        return (HOME / ".codex" / "prompts").resolve()
+    if agent == "cursor":
+        return (Path.cwd() / ".cursor" / "rules").resolve()
+    raise SystemExit(f"ERROR: unknown agent for containment: {agent!r}")
+
+
+def assert_under(root: Path, target: Path) -> None:
+    """Require resolved target to be a strict descendant of resolved root."""
+    root_r, tgt_r = root.resolve(), target.resolve()
+    if root_r == tgt_r or root_r not in tgt_r.parents:
+        msg = (
+            f"ERROR: install target must resolve strictly under {root_r}, "
+            f"got: {tgt_r}"
+        )
+        print(msg, file=sys.stderr)
+        raise SystemExit(1)
 
 
 # kind: native (copy folder) | transform (render SKILL.md to one file)
@@ -137,25 +204,38 @@ def main(argv: list[str]) -> int:
     ap.add_argument("--list-agents", action="store_true")
     args = ap.parse_args(argv[1:])
 
-    if args.list_agents:
-        for name, a in AGENTS.items():
-            ns = "" if args.flat else args.namespace
-            print(f"{name:9} {a['kind']:9} {a['target'](ns)}")
-        return 0
+    # Token gate runs for every mode except --flat (namespace unused under --flat).
+    if not args.flat:
+        validate_namespace(args.namespace)
 
     ns = "" if args.flat else args.namespace  # pathlib drops the empty segment
 
+    if args.list_agents:
+        for name, a in AGENTS.items():
+            print(f"{name:9} {a['kind']:9} {a['target'](ns)}")
+        return 0
+
     if args.agent == "all":
         chosen = [n for n, a in AGENTS.items() if a["in_all"]]
-        print("Installing to user-global agents (Cursor is project-local — run --agent cursor separately):")
+        print(
+            "Installing to user-global agents "
+            "(Cursor is project-local - run --agent cursor separately):"
+        )
     else:
         if args.agent not in AGENTS:
             ap.error(f"unknown agent '{args.agent}' (see --list-agents)")
         chosen = [args.agent]
 
+    # Pass 1: resolve + contain every chosen target. No mkdir/rmtree/write yet.
+    planned: list[tuple[str, dict, Path]] = []
     for name in chosen:
         a = AGENTS[name]
         target = a["target"](ns)
+        assert_under(containing_root(name), target)
+        planned.append((name, a, target))
+
+    # Pass 2: install only after every containment check passed.
+    for name, a, target in planned:
         print(f"[{name}] {a['kind']}")
         if a["kind"] == "native":
             install_native(target, args.dry_run, args.force)
