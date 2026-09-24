@@ -24,6 +24,8 @@ Tier / commercial_use / share_alike / attribution are inferred from the licence
 from __future__ import annotations
 
 import argparse
+import json
+import re
 import sys
 from pathlib import Path
 
@@ -32,36 +34,26 @@ from vet_source import classify  # noqa: E402  (same-dir tool)
 
 VALID_TIERS = {"1", "2", "3"}
 
-PACK_YAML_TEMPLATE = """\
-slug: {slug}
-title: "{title}"
-publisher: "{publisher}"
-source_version: "{version}"
-license: "{license}"
-license_tier: {tier}
-commercial_use: {commercial_use}
-share_alike: {share_alike}
-attribution_required: {attribution_required}
-build:
-  method: "jgs-reference-skill: vendored book-to-skill extraction + offset-mapped chapter synthesis"
-  source_pages: 0
-  chapters: 0
-  built_on: "TODO"
-notes: >
-  TODO: record how the source licence's conditions (attribution / non-commercial /
-  share-alike / trademark) are carried forward into this pack. Synthesised reference
-  notes only; no long verbatim passages (verify with tools/check_overlap.py).
-"""
+# The one normative PACK.yaml shape: templates/PACK.yaml, with nine single-use
+# <TOKEN> placeholders that render_pack_yaml substitutes field-targeted.
+# TODO markers in the template are fill-later and are never touched here.
+_TEMPLATE_PATH = Path(__file__).resolve().parent.parent / "templates" / "PACK.yaml"
+
+# A slug becomes one path segment: kebab-case only, never a Windows device name.
+_SLUG_RE = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
+_WINDOWS_RESERVED = {"con", "prn", "aux", "nul",
+                     *(f"com{i}" for i in range(1, 10)),
+                     *(f"lpt{i}" for i in range(1, 10))}
 
 LICENSE_STUB = """\
-{slug} pack — content licence
+{slug} pack - content licence
 {underline}
 
 Derived from:
     {title}
     {publisher}, {version}
 
-Source licence: {license}  (tier {tier} — see ../../docs/SOURCE-VETTING.md)
+Source licence: {license}  (tier {tier}; see ../../docs/SOURCE-VETTING.md)
 
 TODO: reproduce the source's full licence text / terms here. For public-domain
 (US Government) works, state that and keep an attribution courtesy note. For CC
@@ -70,6 +62,37 @@ sources, reproduce the deed summary and the obligations carried forward.
 This licence governs the CONTENT of this pack and is independent of the
 repository's MIT licence (which covers tooling only).
 """
+
+
+def _q(value: str) -> str:
+    """YAML double-quoted scalar via JSON escaping (stdlib)."""
+    return json.dumps(value, ensure_ascii=False)
+
+
+def _plain(value: str) -> str:
+    """Single-line prose for the LICENSE stub: embedded newlines become spaces."""
+    return value.replace("\n", " ").replace("\r", " ")
+
+
+def render_pack_yaml(template: str, *, slug, title, publisher, version, license,
+                     tier, commercial_use, share_alike, attribution_required) -> str:
+    replacements = {
+        "<SLUG>": slug,                                 # bare kebab
+        "<TITLE>": _q(title),                           # includes surrounding quotes
+        "<PUBLISHER>": _q(publisher),
+        "<VERSION>": _q(version),
+        "<LICENSE>": _q(license),
+        "<TIER>": str(tier),                            # bare 1|2|3
+        "<COMMERCIAL_USE>": commercial_use,             # bare true|false
+        "<SHARE_ALIKE>": share_alike,
+        "<ATTRIBUTION_REQUIRED>": attribution_required,
+    }
+    out = template
+    for token, value in replacements.items():
+        if out.count(token) != 1:
+            raise SystemExit(f"template token {token} count={out.count(token)}, expected 1")
+        out = out.replace(token, value, 1)
+    return out
 
 
 def main(argv: list[str]) -> int:
@@ -108,20 +131,41 @@ def main(argv: list[str]) -> int:
     share_alike = args.share_alike or b(v["share_alike"])
     attribution = args.attribution_required or b(v["attribution_required"])
 
-    pack_dir = Path(args.out_dir) / args.slug
+    # --- slug gate: all validation happens before any filesystem effect ---
+    if not _SLUG_RE.fullmatch(args.slug):
+        print(f"ERROR: --slug must be kebab-case (lowercase letters, digits, hyphens), got: {args.slug!r}", file=sys.stderr)
+        return 1
+    if any(s.lower() in _WINDOWS_RESERVED for s in [args.slug, *args.slug.split("-")]):
+        print(f"ERROR: --slug must not use a Windows reserved device name (con, prn, aux, nul, com1-9, lpt1-9), got: {args.slug!r}", file=sys.stderr)
+        return 1
+    out_root = Path(args.out_dir).resolve()          # parents need not exist
+    pack_dir = (out_root / args.slug).resolve()
+    if pack_dir != out_root and out_root not in pack_dir.parents:
+        print(f"ERROR: --slug must resolve to a directory inside {out_root}, got: {args.slug!r}", file=sys.stderr)
+        return 1
+
+    if not _TEMPLATE_PATH.is_file():
+        print(f"ERROR: PACK.yaml template not found: {_TEMPLATE_PATH}", file=sys.stderr)
+        return 1
+    template = _TEMPLATE_PATH.read_text(encoding="utf-8")
+
     if pack_dir.exists():
         print(f"ERROR: {pack_dir} already exists.", file=sys.stderr)
         return 1
-    (pack_dir / "chapters").mkdir(parents=True)
 
-    (pack_dir / "PACK.yaml").write_text(PACK_YAML_TEMPLATE.format(
-        slug=args.slug, title=args.title, publisher=args.publisher, version=args.version,
-        license=args.license, tier=tier, commercial_use=commercial,
-        share_alike=share_alike, attribution_required=attribution), encoding="utf-8")
-    (pack_dir / "LICENSE").write_text(LICENSE_STUB.format(
-        slug=args.slug, underline="=" * (len(args.slug) + 24), title=args.title,
-        publisher=args.publisher, version=args.version, license=args.license, tier=tier),
-        encoding="utf-8")
+    rendered = render_pack_yaml(
+        template, slug=args.slug, title=args.title, publisher=args.publisher,
+        version=args.version, license=args.license, tier=tier,
+        commercial_use=commercial, share_alike=share_alike,
+        attribution_required=attribution)
+    license_text = LICENSE_STUB.format(
+        slug=_plain(args.slug), underline="=" * (len(args.slug) + 24),
+        title=_plain(args.title), publisher=_plain(args.publisher),
+        version=_plain(args.version), license=_plain(args.license), tier=tier)
+
+    (pack_dir / "chapters").mkdir(parents=True)
+    (pack_dir / "PACK.yaml").write_text(rendered, encoding="utf-8")
+    (pack_dir / "LICENSE").write_text(license_text, encoding="utf-8")
 
     print(f"✅ Vetted Tier {tier} → created {pack_dir}/ with PACK.yaml + LICENSE stub + chapters/.")
     print("\nNext (agent-driven — see SKILL.md):")

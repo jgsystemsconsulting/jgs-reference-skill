@@ -147,10 +147,13 @@ python3 <SKILL_DIR>/tools/build_pack.py --slug <slug> \
 ```
 
 This re-runs the vet gate (refusing Excluded sources), then creates
-`packs/<slug>/` with `chapters/`, a pre-filled `PACK.yaml` (tier + flags inferred
-from the licence), and a `LICENSE` stub to complete. Fill the `PACK.yaml` TODOs
-(`source_pages`, `chapters`, `built_on`, `notes`) and reproduce the source's terms
-in `LICENSE`.
+`packs/<slug>/` with `chapters/`, a `PACK.yaml` built from the normalised
+template (nine `<TOKEN>` placeholders substituted by `build_pack`), and a
+`LICENSE` stub to complete. Fill the operator markers: replace `built_on: "TODO"`
+with the build date, rewrite the notes block (remove the leading `TODO:`), and
+set `source_pages` and `chapters` to positive integers; reproduce the source's
+terms in `LICENSE` (remove the `TODO: reproduce` stub line). `validate_pack`
+rejects any unfilled marker at publish time.
 
 ## Step 6: Generate chapters (reference depth, grounded)
 
