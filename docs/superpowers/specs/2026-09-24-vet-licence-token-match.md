@@ -17,7 +17,7 @@ That is a substring test, not a grant test. Ordinary non-grant prose that happen
 |---|---|---|
 | `limitations` | `mit` | Tier 2, `commercial_use=true` |
 | `committee` | `mit` | Tier 2, `commercial_use=true` |
-| `distributed` | `bsd` | Tier 2, `commercial_use=true` |
+| Boundary illustration: `FreeBSD license` (pre-fix) | `bsd` had no boundary inside `freebsd`, so the substring check matched it by luck; the boundary matcher needs the explicit `free` prefix form | Tier 2, `commercial_use=true` (unchanged result, now by rule) |
 
 `build_pack` imports `classify` and writes the returned `license_tier` / `commercial_use` / `share_alike` / `attribution_required` straight into `PACK.yaml`. A false Tier-2 verdict therefore becomes a false redistribution grant in provenance before any later gate looks at the licence text again. That is the failure mode the licence-clean product exists to prevent (finding I7).
 
@@ -77,6 +77,10 @@ No match falls through to the existing step-4 path (Goal 3). Implementation stay
 ```python
 _PERMISSIVE_FAMILY = re.compile(r"\b(?:mit|apache|(?:free\s*)?bsd)\b")
 # ...
+_NEGATION = re.compile(
+    r"\bnon[\s_-]*commercial\b|\bno[\s]+commercial\b|\bnot\s+for\s+commercial\b"
+    r"|\bcommercial\s+use\s+(?:is\s+)?(?:prohibited|restricted|forbidden|not\s+permitted|not\s+allowed)\b"
+    r"|\bnc\b")  # boundary-anchored: the standalone token, never the nc inside licence
 if _PERMISSIVE_FAMILY.search(lic) and not _NEGATION.search(lic):
     return _verdict(tier=2, commercial_use=True, share_alike=False,
                     attribution_required=True)
@@ -96,7 +100,7 @@ One compiled pattern is enough. Do not enumerate every SPDX string as a separate
 
 ### 2. Ambiguous family mention fails toward caution
 
-If the licence string does not satisfy the boundary matcher, this branch must **not** return `commercial_use=true`. There is no "maybe MIT" half-tier. The same caution applies to negated grants: a family token accompanied by a non-commercial restriction (`non-commercial`, `noncommercial`, `no commercial`, or a standalone `nc` token) must not yield `commercial_use=true`; the negation guard in the implementation shape routes it to the step-4 fallback.
+If the licence string does not satisfy the boundary matcher, this branch must **not** return `commercial_use=true`. There is no "maybe MIT" half-tier. The same caution applies to negated grants: a family token accompanied by a non-commercial restriction (spelled `non-commercial`, `noncommercial`, `non commercial`, `no commercial`, `not for commercial`, `commercial use prohibited/restricted/forbidden/not permitted`, or a standalone `nc` token) must not yield `commercial_use=true`; the negation guard in the implementation shape routes it to the step-4 fallback. The trade-off is accepted and deliberate: a legitimate permissive grant whose prose merely mentions non-commercial terms alongside the family token (for example "MIT; no commercial restrictions") is also demoted to the caution path. Failing toward caution is the contract.
 
 Exact fallback (current step 4, keep behavior and warning text unless a trivial wording fix is required for accuracy):
 
@@ -135,6 +139,12 @@ Required self-check (or pytest) probes, mapped 1:1 to Success criteria:
 | True grant | `MIT-style` | same Tier 2 shape |
 | True grant | `FreeBSD license` | same Tier 2 shape (the `(?:free\s*)?bsd` prefix form) |
 | Negated grant | `MIT for non-commercial use only` | NOT `commercial_use=True`; falls to the step-4 caution path (tier 3) |
+| Negated grant | `noncommercial MIT variant` | same caution path |
+| Negated grant | `MIT, commercial use prohibited` | same caution path |
+| Negated grant | `MIT; no commercial restrictions` | same caution path (accepted false-negative demotion, see Goal 2) |
+| Negated grant | `MIT NC` / `licence nc only` | same caution path (standalone nc token) |
+| Negated grant | `MIT, commercial use not allowed` | same caution path (paraphrase) |
+| True grant | `MIT licence` and `Apache Licence 2.0` | same Tier 2 shape (the nc inside licence must NOT demote) |
 | Excluded unchanged | title/publisher hits for `afotec`, `defense acquisition guidebook` / `dod dag`, `cmu` / `carnegie mellon` / `software engineering institute` (existing EXCLUDED keys) | `excluded=True`, tier `None`; reasons unchanged |
 | Existing self-check | current eight table rows (ISO, OMG, Wiley/INCOSE, NASA PD, DoD Dist A, SEBoK CC BY-NC-SA, CC BY-ND, freely available) | same expected excluded/tier as today; SEBoK NC+SA assert unchanged |
 | build_pack e2e | real MIT source through `build_pack` (non-Excluded title/publisher, `--license MIT`, unique kebab slug, tmp out-dir) | exit 0; PACK.yaml carries `license_tier: 2` and `commercial_use: true` derived from classify (no manual `--tier` / `--commercial-use` override) |
@@ -173,7 +183,7 @@ SKILL.md Step 1 only invokes the tool and consumes the JSON verdict; no SKILL co
 1. `classify("Some Guide", "Author", "limitations of liability apply")` returns `license_tier == 3` and `commercial_use is False` (not Tier 2).
 2. Same for licence strings `reviewed by committee` and `may be distributed under site terms`.
 3. `classify(..., "MIT")`, `classify(..., "Apache 2.0")`, `classify(..., "BSD 3-Clause")`, `classify(..., "MIT-style")`, and `classify(..., "FreeBSD license")` each return `license_tier == 2`, `commercial_use is True`, `share_alike is False`, `attribution_required is True`.
-3b. `classify(..., "MIT for non-commercial use only")` does NOT return `commercial_use is True`; it falls through to the caution path (tier 3).
+3b. Negated grants do NOT return `commercial_use is True`; they fall through to the caution path (tier 3). Probe at minimum: `MIT for non-commercial use only`, `noncommercial MIT variant`, `MIT, commercial use prohibited`, `MIT; no commercial restrictions`.
 4. Excluded self-check cases for AFOTEC, DAG (`defense acquisition guidebook` / `dod dag`), and CMU-SEI (`cmu` / `carnegie mellon` / `software engineering institute`) still return `excluded is True` with their current reasons; prior eight self-check rows still pass; SEBoK NC+SA assert still holds.
 5. `python tools/vet_source.py --self-check` exits 0 and includes the new false-positive and true-grant probes.
 6. A `build_pack` run with a non-Excluded title/publisher and `--license MIT` (tmp out-dir, fresh kebab slug, no tier overrides) exits 0 and writes PACK.yaml with `license_tier: 2` and `commercial_use: true`.

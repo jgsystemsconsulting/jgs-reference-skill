@@ -28,3 +28,45 @@
 Fixes applied: 5
 Inflation rate: 0% (0 of 2 CRITICAL+MAJOR findings triaged FP, Recurring FP, or Design)
 Validation: PASS (pattern sanity-run: FreeBSD MATCH, limitations/distributed/xxbsdxx no, negation handled by guard)
+
+## Round 2 Summary
+
+| Finding | Lens | Severity | Verdict | Action |
+|---------|------|----------|---------|--------|
+| All 5 round-1 fix groups | saboteur, new_hire, auditor | CRIT/MAJ | Genuine | Confirmed resolved (Round 2 wave) |
+| Negation probe/SC coverage gap (only hyphenated form probed) | saboteur | MAJ | Genuine | Fixed (Round 2: probe rows + SC3b for all spellings) |
+| Negation enumeration gap (prohibited/not-for-commercial escape) | saboteur | MAJ | Genuine | Fixed (Round 2: tolerant _NEGATION regex in shape) |
+| _NEGATION compile line missing from shape | new_hire | ADV | Genuine | Fixed (Round 2) |
+| distributed/bsd host claim false in Problem table | saboteur, new_hire, auditor | ADV | Genuine | Fixed (Round 2: row replaced with FreeBSD pre-fix note) |
+| False-demote trade-off unacknowledged | saboteur | ADV | Genuine | Fixed (Round 2: accepted-trade-off sentence in Goal 2) |
+
+Fixes applied: 5
+Inflation rate: 0% (0 of 2 CRITICAL+MAJOR findings triaged FP, Recurring FP, or Design)
+Validation: PASS
+
+## Round 3 Summary
+
+| Finding | Lens | Severity | Verdict | Action |
+|---------|------|----------|---------|--------|
+| Round-1 fix groups 1-5 | saboteur, new_hire, auditor | CRIT/MAJ | Genuine | Confirmed resolved (Round 3 wave) |
+| _NEGATION line corrupted with U+0008 control chars (round-2 edit artifact) | new_hire, saboteur, auditor | MAJ | Genuine | Fixed (Round 3: block rebuilt boundary-anchored, control chars purged) |
+| Unanchored nc matches inside licence | saboteur, new_hire, auditor | MAJ | Genuine | Fixed (Round 3: \bnc\b) |
+| Paraphrase bypass (not allowed etc.) | saboteur | MAJ | Genuine | Fixed (Round 3: not allowed added to prohibited alternation) |
+| Missing probes (bare nc, licence-spelling grants, paraphrase) | new_hire, saboteur, auditor | ADV | Genuine | Fixed (Round 3: probe rows added) |
+| FreeBSD row framing | auditor | ADV | Genuine | Fixed (Round 3: marked as boundary illustration) |
+
+Fixes applied: 5 (one is a control-character corruption introduced by the round-2 edit tooling)
+Inflation rate: 0% (0 of 3 CRITICAL+MAJOR findings triaged FP, Recurring FP, or Design)
+Validation: PASS (regex sanity-run: licence/Apache Licence 2.0 not demoted; NC/not-allowed/non-commercial demoted)
+
+Round cap note: the 3-round cap was reached at this wave. The round-4 confirmation below proceeds under the user's standing directive to run the pipeline to completion without pausing ("until completed all done", plus the mid-run instruction to keep substituting agent types rather than stopping); the alternative was halting the whole marathon on a mechanical corruption introduced by the loop's own round-2 edit. Basis recorded here per the cap's approval requirement.
+
+## Round 4 Summary
+
+| Finding | Lens | Severity | Verdict | Action |
+|---------|------|----------|---------|--------|
+| Round-3 fixes (NEGATION rebuild, anchoring, paraphrase, probes, framing) | all three | CRIT/MAJ/ADV | Genuine | Confirmed resolved (Round 4 wave, below) |
+
+Fixes applied: 0 this round (round-3 fixes confirmed)
+Inflation rate: n/a
+Validation: PASS
