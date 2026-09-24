@@ -114,7 +114,7 @@ Prose-check exception: residual `spaced-double-hyphen` flags are literal CLI opt
 | id / name | P4 · step9-verify-gates |
 | size | M |
 | deps | P2, P1 |
-| status | ready |
+| status | in-flight |
 | corroboration | 3 (value, risk, cohesion) |
 | provenance | value/pack-eval-fail-empty-topic-index, risk/licence-and-verify-false-greens, cohesion/step9-verify-gates |
 | promoted_ids | (first run: none) |
@@ -245,7 +245,7 @@ Prose-check exception: residual `spaced-double-hyphen` flags are literal CLI opt
 - Sibling repo jgs-archi-skills website (its docs/ site) is the named standard; no cross-check exists in this repo
 - Release commits 7f64c1d, ca684af, 7110cd2 built the current page without a sibling-standard comparison
 
-**In scope.** Survey the jgs-archi-skills site (structure, CSS conventions, fonts, nav, footer, meta/OG, accessibility basics); diff this repo's docs/index.html against it; align structure and conventions where they diverge, keeping this repo's own content and brand accuracy; keep the page self-contained and GitHub Pages-compatible.
+**In scope.** Survey the jgs-archi-skills site (structure, CSS conventions, fonts, nav, footer, meta/OG, accessibility basics); diff this repo's docs/index.html against it; align structure and conventions where they diverge, keeping this repo's own content and brand accuracy; keep the page self-contained and GitHub Pages-compatible. P4 handoff: the landing page's verify cell (docs/index.html around L142 and L187) still says three gates; P4 made Step 9 four gates, so this package corrects that copy to four.
 
 **Out of scope.** New site frameworks or build tooling; content rewrites beyond what alignment requires; jgs-archi-skills repo changes; motion or video assets (P7 territory).
 

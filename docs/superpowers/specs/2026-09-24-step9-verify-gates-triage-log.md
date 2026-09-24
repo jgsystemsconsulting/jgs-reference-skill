@@ -29,3 +29,27 @@
 Fixes applied: 5
 Inflation rate: 0% (0 of 4 CRITICAL+MAJOR findings triaged FP, Recurring FP, or Design)
 Validation: PASS
+
+## Round 2 Summary
+
+| Finding | Lens | Severity | Verdict | Action |
+|---------|------|----------|---------|--------|
+| All 5 round-1 fix groups | saboteur, new_hire, auditor | CRIT/MAJ | Genuine | Confirmed resolved (Round 2 wave) |
+| Waiver scoped-form clause references nonexistent CLI form | saboteur | ADV | Genuine | Fixed (Round 2: waivers never narrow scope; audit artifact only) |
+| Self-referential signpost wording | saboteur | ADV | Genuine | Fixed (Round 2) |
+| skill-usage/PACK-SPEC drift owner | saboteur | ADV | Advisory-skipped (declared known drift, out of scope by design) | Skipped (Round 2) |
+| Doc-sync table omits heading reword | new_hire | ADV | Genuine | Fixed (Round 2) |
+| Garbled duplicate phrase | new_hire | ADV | Genuine | Fixed (Round 2) |
+| Signpost test row missing guard cells | new_hire | ADV | Genuine | Fixed (Round 2: smuggling case added) |
+| P8 handoff lacks named verify-cell correction | auditor | ADV | Genuine | Fixed (Round 2: handed to P8 via packages doc edit below) |
+| Smuggling test case absent | auditor | ADV | Genuine | Fixed (Round 2: same row as new_hire A3) |
+
+Fixes applied: 6 (advisory; wave confirmed all 5 round-1 fixes)
+Inflation rate: n/a (0 CRITICAL+MAJOR findings this round)
+Validation: PASS
+
+## Converged: Round 2
+
+Track 1: Merged verdict NO_CRITICAL_OR_MAJOR. (Round 2 confirmation wave: all 5 round-1 fix groups confirmed resolved by saboteur, new_hire, auditor; six clarifying advisories fixed or routed.)
+Total rounds: 2  |  Total fixes: 11
+Document is ready.
