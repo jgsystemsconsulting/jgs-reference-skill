@@ -23,3 +23,6 @@ Thumbs.db
 
 # superpowers SDD scratch workspaces
 .superpowers/
+
+# Local generated / demo packs (never commit pack outputs)
+packs/
