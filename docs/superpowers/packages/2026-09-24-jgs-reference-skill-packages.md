@@ -87,7 +87,7 @@ Prose-check exception: residual `spaced-double-hyphen` flags are literal CLI opt
 | id / name | P3 · vet-licence-token-match |
 | size | S |
 | deps | P1 |
-| status | ready |
+| status | done |
 | corroboration | 2 (value, risk) |
 | provenance | value/fix-vet-licence-token-match, risk/licence-and-verify-false-greens |
 | promoted_ids | (first run: none) |
