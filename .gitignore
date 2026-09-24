@@ -17,3 +17,6 @@ Thumbs.db
 
 # Playwright MCP visual-QA artifacts (untracked)
 .playwright-mcp/
+
+# Local agent session state (never committed; contains internal notes)
+.zcode/
