@@ -232,7 +232,7 @@ Prose-check exception: residual `spaced-double-hyphen` flags are literal CLI opt
 | id / name | P8 · website-align-jgs-archi-standard |
 | size | M |
 | deps | P1-P6 (runs after the functional fixes so the site documents final behavior) |
-| status | ready |
+| status | done |
 | corroboration | user direction, 2026-09-24 superpowers-process invoke |
 | provenance | user direction at proposal stop ("ensure website aligns to standard of jgs-archi-skills") |
 | promoted_ids | (none) |
