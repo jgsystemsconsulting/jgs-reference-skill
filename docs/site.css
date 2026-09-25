@@ -17,6 +17,7 @@
 *{box-sizing:border-box;margin:0;padding:0;}
 html{background:var(--ink);}
 body{background:var(--ink);color:var(--mute-2);font:400 16px/1.7 var(--sans);-webkit-font-smoothing:antialiased;}
+img{max-width:100%;height:auto;}
 .wrap{max-width:1200px;margin:0 auto;padding:0 var(--pad-x);}
 a{color:var(--text-hi);text-decoration:none;border-bottom:1px solid var(--line-2);}
 a:hover{border-color:var(--paper);}
@@ -34,7 +35,7 @@ nav.site a:hover{color:var(--text-hi);}
 nav.site .brand{border:0;display:inline-flex;align-items:center;}
 nav.site .brand img{display:block;}
 .hero{padding:var(--pad-section) 0;border-bottom:1px solid var(--line);}
-.hero h1{font-family:var(--mono);font-size:min(5vw,3.5rem);line-height:1.05;margin-bottom:2rem;white-space:nowrap;}
+.hero h1{font-family:var(--mono);font-size:min(5vw,3.5rem);line-height:1.05;margin-bottom:1.75rem;white-space:nowrap;}
 .hero p{max-width:62ch;font-size:1.0625rem;color:var(--text);}
 .hero .sub{margin-top:.5rem;color:var(--mute-2);}
 .cta{display:flex;flex-wrap:wrap;gap:14px;margin-top:2rem;}
@@ -78,7 +79,7 @@ footer{padding:var(--pad-section) 0;}
 .teaser figcaption { margin-top: .6rem; color: var(--mute); font-size: .85rem; font-family: var(--mono); }
 
 /* Hero two-column with media panel */
-.hero-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:3rem;align-items:center;}
+.hero-grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:2.5rem;align-items:start;}
 .hero-copy p{max-width:none;}
 .hero-media figure{margin:0;}
 .hero-media video{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:var(--ink);}
