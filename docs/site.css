@@ -85,3 +85,10 @@ footer{padding:var(--pad-section) 0;}
 .hero-media video{display:block;width:100%;height:auto;border:1px solid var(--line);border-radius:8px;background:var(--ink);}
 .hero-media figcaption{margin-top:.6rem;color:var(--mute-2);font-size:.85rem;font-family:var(--mono);}
 @media (max-width:920px){.hero-grid{grid-template-columns:1fr;gap:2rem;}}
+
+/* Footer: tblock grid + cells + note */
+.tblock{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line);border:1px solid var(--line);}
+.tcell{background:var(--ink-2);padding:18px 24px;}
+.tcell .tl{display:block;margin-bottom:.4rem;font:700 .6875rem/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;color:var(--mute);}
+.tcell b{color:var(--text);font:700 .875rem var(--mono);}
+.fnote{margin-top:1.5rem;font:400 .8125rem/1.6 var(--mono);color:var(--mute);}
