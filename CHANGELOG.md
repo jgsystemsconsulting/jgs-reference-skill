@@ -2,6 +2,12 @@
 
 # Changelog
 
+## [Unreleased]
+
+### Changed
+
+- site: the og/twitter share card now uses the skill-overview title card (1280x720), superseding the generated 1200x630 card from P8.
+
 ## 0.3.0 - 2026-09-25
 
 First cut carrying the 2026-09-24 review: every review finding landed as a
