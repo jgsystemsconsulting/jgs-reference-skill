@@ -1,0 +1,146 @@
+<!doctype html>
+<!-- Copyright (c) 2026 JG Systems Consulting Ltd. Source: https://github.com/jgsystemsconsulting/jgs-reference-skill. See LICENSE. -->
+<!-- SPDX-License-Identifier: MIT -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<title>JGS Reference Skill: authoritative source to citable knowledge pack</title>
+<meta name="description" content="Convert a vetted authoritative source (standard, handbook, guidebook) into a licence-clean, citable knowledge pack. Vets the source's licence first and refuses non-redistributable sources.">
+<link rel="canonical" href="https://jgsystemsconsulting.github.io/jgs-reference-skill/">
+<link rel="icon" href="favicon.ico" sizes="48x48">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="stylesheet" href="site.css?v=20260925b">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://jgsystemsconsulting.github.io/jgs-reference-skill/">
+<meta property="og:title" content="JGS Reference Skill">
+<meta property="og:description" content="Vetted authoritative sources into licence-clean, citable knowledge packs. A fork of book-to-skill with a licence-vet gate, provenance, and verbatim-overlap detection.">
+<meta property="og:image" content="https://jgsystemsconsulting.github.io/jgs-reference-skill/title-card.png">
+<meta property="og:image:width" content="1280">
+<meta property="og:image:height" content="720">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="JGS Reference Skill">
+<meta name="twitter:description" content="Vetted authoritative sources into licence-clean, citable knowledge packs.">
+<meta name="twitter:image" content="https://jgsystemsconsulting.github.io/jgs-reference-skill/title-card.png">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"SoftwareApplication","name":"JGS Reference Skill","applicationCategory":"DeveloperApplication","operatingSystem":"Any","softwareVersion":"0.3.0","license":"https://github.com/jgsystemsconsulting/jgs-reference-skill/blob/main/LICENSE","url":"https://jgsystemsconsulting.github.io/jgs-reference-skill/","codeRepository":"https://github.com/jgsystemsconsulting/jgs-reference-skill","author":{"@type":"Organization","name":"JG Systems Consulting Ltd"}}
+</script>
+</head>
+<body>
+
+<header class="masthead"><div class="wrap">
+  <span>CLASSIFICATION: <b>PUBLIC</b></span>
+  <span>LICENCE: <b>MIT</b></span>
+  <span>DOC-ID: <b>JGS-REF-SKILL</b></span>
+  <span>REV <b>0.3.0</b></span>
+</div></header>
+
+<nav class="site" aria-label="Site"><div class="wrap">
+  <a class="brand" href="index.html" aria-label="JG Systems Consulting home"><img src="images/jgs-emblem.png" alt="" width="28" height="28"></a>
+  <a href="#what-it-is">What it is</a>
+  <a href="#pipeline">Pipeline</a>
+  <a href="#different">Different</a>
+  <a href="#agents">Agents</a>
+  <a href="#install">Install</a>
+  <a href="#usage">Use it</a>
+  <a href="https://github.com/jgsystemsconsulting/jgs-reference-skill">Repository</a>
+</div></nav>
+
+<main>
+<div class="hero"><div class="wrap">
+  <h1>JGS Reference Skill</h1>
+  <div class="hero-grid">
+  <div class="hero-copy">
+    <p>Turn a vetted authoritative source (a standard, handbook, guidebook, or framework) into a <b>licence-clean, citable knowledge pack</b> your agent loads on demand.</p>
+    <p class="sub">A fork of book-to-skill, repositioned from personal study skills to publishable reference oracles: it vets the source's licence first and refuses to package anything it cannot redistribute.</p>
+    <div class="cta">
+      <a class="btn btn-primary" href="https://github.com/jgsystemsconsulting/jgs-reference-skill">View on GitHub <span aria-hidden="true">&rarr;</span></a>
+      <a class="btn btn-ghost" href="https://github.com/jgsystemsconsulting/jgs-reference-skill#install">Install <span aria-hidden="true">&rarr;</span></a>
+    </div>
+  </div>
+  <div class="hero-media">
+    <a href="https://github.com/jgsystemsconsulting/jgs-reference-skill" aria-label="jgs-reference-skill on GitHub">
+      <img src="title-card.png?v=5" alt="jgs-reference-skill skill overview card: licence vet gate, 6-step pipeline, 4 verify gates, per-pack licence" width="1280" height="720">
+    </a>
+  </div>
+</div></div>
+
+<section id="what-it-is"><div class="wrap">
+  <div class="shead"><span class="label">§01 · What it is</span><h2>A reference oracle, not study notes</h2></div>
+  <p class="lead">A reference pack answers "what does this body of knowledge say about X?" from the actual source: grounded, never hallucinated, never a photocopy. It keeps book-to-skill's progressive-disclosure shape (a small always-loaded <code>SKILL.md</code> plus on-demand chapters) and adds the provenance, licence, and verification rigour that a <em>published</em> pack needs.</p>
+</div></section>
+
+<section id="pipeline"><div class="wrap">
+  <div class="shead"><span class="label">§02 · The pipeline</span><h2>Vet first, verify last</h2></div>
+  <div class="grid g3">
+    <div class="cell"><span class="num">01</span><h3>vet_source</h3><p>Classify the licence: Tier 1/2/3 or Excluded. Paywalled / all-rights-reserved sources are refused and routed to a citation-only signpost.</p></div>
+    <div class="cell"><span class="num">02</span><h3>extract</h3><p>Vendored book-to-skill engine turns PDF/EPUB/DOCX/HTML/RTF into clean text + metadata.</p></div>
+    <div class="cell"><span class="num">03</span><h3>outline</h3><p>Deterministic table of contents with exact char/line offsets, so chapters are sliced precisely, not by ad-hoc grep.</p></div>
+    <div class="cell"><span class="num">04</span><h3>build_pack</h3><p>Vet-gated scaffold writes <code>PACK.yaml</code> provenance and a per-pack <code>LICENSE</code> carrying the source's terms.</p></div>
+    <div class="cell"><span class="num">05</span><h3>generate</h3><p>Citation-grounded chapters plus glossary, patterns, cheatsheet, and the pack's own <code>SKILL.md</code> index.</p></div>
+    <div class="cell"><span class="num">06</span><h3>verify</h3><p>Four gates: <code>check_overlap</code>, <code>validate_pack</code>, <code>pack_eval</code>, <code>scan_generated_skill</code> (overlap, pack structure, index truth, injection scan).</p></div>
+  </div>
+</div></section>
+
+<section id="different"><div class="wrap">
+  <div class="shead"><span class="label">§03 · What makes it different</span><h2>The rigour book-to-skill leaves out</h2></div>
+  <div class="grid g2">
+    <div class="cell"><h3>Licence-vet gate</h3><p>Tier 1/2/3/Excluded classification before extraction. An Excluded source is a hard stop: it becomes a signpost, never a pack.</p></div>
+    <div class="cell"><h3>Provenance + per-pack licence</h3><p><code>PACK.yaml</code> records title, publisher, version, licence, tier, and NC/SA flags; each pack ships the source's own <code>LICENSE</code>.</p></div>
+    <div class="cell"><h3>Verbatim-overlap detector</h3><p>N-gram shingling flags any run lifted from the source: a licence-safety <em>and</em> quality gate, enforced, not just advised.</p></div>
+    <div class="cell"><h3>Index-truth check</h3><p>Every topic-index route is verified to be grounded in the chapter it points to, so the pack routes queries honestly.</p></div>
+  </div>
+</div></section>
+
+<section id="agents"><div class="wrap">
+  <div class="shead"><span class="label">§04 · Supported agents</span><h2>One skill, many hosts</h2></div>
+  <div class="grid g3">
+    <div class="cell"><h3>Native</h3><p>Claude Code, OpenClaw, GitHub Copilot CLI: the skill folder (tools included) is copied unchanged.</p></div>
+    <div class="cell"><h3>Transform</h3><p>Codex, Gemini CLI, Cursor: the spec is rendered into the agent's prompt/command format. Tools run from a local clone.</p></div>
+    <div class="cell"><h3>Open format</h3><p>Built on the agentskills.io <code>SKILL.md</code> standard, so the same source installs everywhere via <code>install.py</code>.</p></div>
+  </div>
+</div></section>
+
+<section id="install"><div class="wrap">
+  <div class="shead"><span class="label">§05 · Install</span><h2>Clone and install</h2></div>
+  <div class="sheet"><pre><span class="c"># Clone, then install into your agent (Claude Code by default)</span>
+git clone https://github.com/jgsystemsconsulting/jgs-reference-skill
+cd jgs-reference-skill
+python install.py                 <span class="c"># Claude Code</span>
+python install.py --agent all     <span class="c"># every user-global agent</span>
+python install.py --list-agents   <span class="c"># show each target + format</span></pre></div>
+  <p class="lead" style="margin-top:1.5rem">Restart your agent and run <code>/jgs-reference-skill</code>. Requires Python 3.9+. The tooling is MIT, but packs you generate carry their source's licence; read the vetting rubric before packaging anything.</p>
+</div></section>
+
+<section id="usage"><div class="wrap">
+  <div class="shead"><span class="label">§06 · Use it</span><h2>Drive it in plain language</h2></div>
+  <p class="lead">Once installed, restart your agent and talk to the skill by name. Give it the source's <b>title, publisher, and licence</b>; it vets the licence first and refuses anything it cannot redistribute, routing Excluded sources to a citation-only signpost.</p>
+  <div class="sheet" style="margin-top:1.5rem"><pre><span class="c"># load the generator spec</span>
+/jgs-reference-skill
+<span class="c"># build a pack from a vetted source</span>
+/jgs-reference-skill build a pack from the NASA SE Handbook
+<span class="c"># vet a source before committing to it</span>
+/jgs-reference-skill vet "SysML" published by the Object Management Group
+<span class="c"># fold a new document into an existing pack</span>
+/jgs-reference-skill add NIST SP 800-160 Vol 2 to my nist-sse pack</pre></div>
+  <p class="lead" style="margin-top:1.5rem">The skill runs the whole pipeline for you: vet, extract, outline, scaffold, generate, and the four verification gates (<code>check_overlap</code>, <code>validate_pack</code>, <code>pack_eval</code>, <code>scan_generated_skill</code>). Prefer to run the tools by hand? The pipeline scripts that ship <code>--self-check</code> can prove themselves that way; <code>scan_generated_skill</code> is still a required gate and has no <code>--self-check</code>. See the <a href="https://github.com/jgsystemsconsulting/jgs-reference-skill/blob/main/docs/skill-usage.md">usage guide</a> for the full reference.</p>
+</div></section>
+</main>
+
+<footer><div class="wrap">
+  <div class="tblock">
+    <div><span class="label">Product</span><b>jgs-reference-skill</b></div>
+    <div><span class="label">Rev</span><b>0.3.0</b></div>
+    <div><span class="label">Licence</span><b>MIT</b></div>
+    <div><span class="label">Repository</span><b><a href="https://github.com/jgsystemsconsulting/jgs-reference-skill">github.com/jgsystemsconsulting</a></b></div>
+    <div><span class="label">Engine</span><b>book-to-skill (MIT)</b></div>
+    <div><span class="label">Owner</span><b>JG Systems Consulting Ltd</b></div>
+  </div>
+  <p class="foot-note">&copy; 2026 JG Systems Consulting Ltd. Tooling licensed under MIT. Produced knowledge packs carry their source's own licence. Extraction engine vendored from book-to-skill, &copy; 2025 virgiliojr94 (MIT). No purchase or licence key needed to use this tooling; for commercial licensing questions see <a href="https://labs.jgsystemsconsulting.com/licensing.html">licensing enquiries</a>.</p>
+</div></footer>
+
+</body>
+</html>
