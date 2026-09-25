@@ -71,3 +71,8 @@ footer{padding:var(--pad-section) 0;}
 @media (prefers-reduced-motion:reduce){
   *{transition:none!important;animation:none!important;}
 }
+
+/* Teaser video figure */
+.teaser { max-width: 920px; margin: 2.5rem auto 0; padding: 0 1.5rem; }
+.teaser video { display: block; width: 100%; height: auto; border: 1px solid var(--line); border-radius: 8px; background: var(--ink); }
+.teaser figcaption { margin-top: .6rem; color: var(--mute); font-size: .85rem; font-family: var(--mono); }
