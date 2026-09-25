@@ -233,11 +233,14 @@ def check_version_agreement(root: pathlib.Path) -> list[str]:
 
 def check_site_version(root, release_re):
     """docs/index.html version strings must equal RELEASE-INFO.txt (ported from jgs-lit-memory)."""
-    m = re.search(release_re, (root / "RELEASE-INFO.txt").read_text(encoding="utf-8"), re.M)
+    m = re.search(release_re, (root / "RELEASE-INFO.txt").read_text(encoding="utf-8", errors="ignore"), re.M)
     if not m:
         return ["RELEASE-INFO.txt: no version line"]
     expected = m.group(1)
-    page = (root / "docs" / "index.html").read_text(encoding="utf-8")
+    page_path = root / "docs" / "index.html"
+    if not page_path.is_file():
+        return ["docs/index.html: not found"]
+    page = page_path.read_text(encoding="utf-8", errors="ignore")
     loci = {
         "softwareVersion": r'"softwareVersion":\s*"(\d+\.\d+\.\d+)"',
         "masthead REV": r"REV <b>(\d+\.\d+\.\d+)</b>",
