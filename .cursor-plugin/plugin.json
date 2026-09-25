@@ -1,7 +1,7 @@
 {
   "name": "jgs-reference-skill",
   "description": "Turn a vetted authoritative source (a standard, handbook, guidebook, or framework) into a licence-clean, citable knowledge pack your agent loads on demand.",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "author": "JG Systems Consulting Ltd",
   "homepage": "https://jgsystemsconsulting.github.io/jgs-reference-skill/",
   "repository": "https://github.com/jgsystemsconsulting/jgs-reference-skill",

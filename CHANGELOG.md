@@ -2,26 +2,61 @@
 
 # Changelog
 
-## [Unreleased]
+## 0.3.0 - 2026-09-25
 
-Release-standard hygiene after the 0.2.1 cut (P9). No product version bump.
+First cut carrying the 2026-09-24 review: every review finding landed as a
+numbered package (P1-P6), the landing page aligned to the JGSC site standard
+(P8), and the release standard re-run over the finished tree (P9). Test suite
+grew from 452 to 543 passed (5 skipped, POSIX-only).
 
 ### Added
-- `docs/DISTRIBUTION.md` channel ledger (last reviewed 0.2.1 / 2026-09-24).
-- Root `SKILLS.md` (single skill index).
-- Host manifests: `.cursor-plugin/`, root `gemini-extension.json`, `.agents/plugins/marketplace.json`.
-- `.github/pull_request_template.md` and `.github/ISSUE_TEMPLATE/improvement.yml`.
+- CI `tests` job (P1): pytest, the five-tool self-check loop, and a compile
+  smoke on every push and PR; CONTRIBUTING documents the matching local
+  runbook. See the RR-S-12 deviation note below.
+- Scaffold hardening (P2): `build_pack` slug validation and containment under
+  the out-dir, safe YAML emission, single provenance template;
+  `validate_pack` rejects TODO/stub provenance.
+- Licence matching (P3): `vet_source` licence-family matching is
+  boundary-aware, ending mit/apache/bsd substring false Tier 2 results.
+- Verify gates (P4): `pack_eval` fails closed on a missing or empty Topic
+  Index and on ungroundable terms; `scan_generated_skill` joins Step 9 as a
+  fourth gate; SKILL.md and README gate lists say four.
+- Installer (P5): namespace and config-dir containment with
+  validate-then-install ordering, payload adds `pyproject.toml` so
+  `pip install -e ".[all]"` works from the installed tree, install-path and
+  workdir docs synced (`BOOK_SKILL_WORKDIR` documented).
+- Provenance guard (P6): RELEASE-INFO `Source-Commit` must be a real ancestor
+  of HEAD, undecodable RELEASE-INFO is a gate error, regression suite
+  included.
+- Website (P8): landing page aligned to the JGSC site shell; CSS extracted to
+  `docs/site.css`, local icons and emblem, product-neutral OG card, four-gate
+  wording.
+- Release-standard hygiene (P9): `docs/DISTRIBUTION.md` channel ledger, root
+  `SKILLS.md` index, host manifests (`.cursor-plugin/`,
+  `gemini-extension.json`, `.agents/plugins/marketplace.json`), PR template
+  and improvement issue form.
 
 ### Fixed
-- Version drift: `CITATION.cff`, README badge, and agent-install prompt now agree at 0.2.1 with RELEASE-INFO / pyproject / plugin / landing.
-- `SECURITY.md` supported-versions table tracks the 0.2.x line.
-- `scripts/check_release.py`: explicit forbidden-paths class, RR-B-37 escape guard (never-track, gitignore rules, frozen `docs/superpowers/` baseline), version agreement for CITATION/README.
-- Landing `#usage` anchor compatibility; README Support names bug vs improvement vs security channels.
-- Codex install path documented as the deliberate prompts-path alternative.
+- Version drift: CITATION.cff, README badge, and agent-install prompt now
+  agree with RELEASE-INFO / pyproject / plugin manifests / landing (P9).
+- SECURITY.md supported-versions table tracks the current line (P9; backlog
+  b-04 closed).
+- `scripts/check_release.py`: explicit forbidden-paths class, RR-B-37 escape
+  guard with a frozen `docs/superpowers/` baseline, version agreement for
+  CITATION/README.
+- Landing `#usage` anchor compatibility; README Support names bug vs
+  improvement vs security channels; Codex install path documented.
 
 ### Notes
-- **RR-S-12 deviation (dated 2026-09-24):** the standard CI verify line says no step executes checked-out repository code. Since P1, the `tests` job deliberately runs pytest, tools `--self-check`, and `py_compile` under `pull_request` semantics with `permissions: read-all` and no secrets. The read-only `integrity` job is unchanged. Fork PRs gain no write access. Revisit only if GitHub changes pull_request token semantics.
-- P1-P8 product work is already on the tree around the 0.2.1 cut; this Unreleased section records post-tag standard hygiene only. Publish-time remains open: GitHub Release object for `v0.2.1` (tag exists), optional About/topic polish, directory submissions (see `docs/DISTRIBUTION.md`).
+- **RR-S-12 deviation (dated 2026-09-24):** the standard CI verify line says
+  no step executes checked-out repository code. Since P1, the `tests` job
+  deliberately runs pytest, tools `--self-check`, and `py_compile` under
+  `pull_request` semantics with `permissions: read-all` and no secrets. The
+  read-only `integrity` job is unchanged. Fork PRs gain no write access.
+  Revisit only if GitHub changes pull_request token semantics.
+- Publish-time follow-ups remain open: GitHub Release objects (v0.2.1 and
+  this tag), About/topic polish, directory submissions (see
+  `docs/DISTRIBUTION.md`).
 
 ## 0.2.1 - 2026-09-24
 
