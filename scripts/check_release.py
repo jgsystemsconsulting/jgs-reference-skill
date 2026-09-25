@@ -231,6 +231,30 @@ def check_version_agreement(root: pathlib.Path) -> list[str]:
     return errors
 
 
+def check_site_version(root, release_re):
+    """docs/index.html version strings must equal RELEASE-INFO.txt (ported from jgs-lit-memory)."""
+    m = re.search(release_re, (root / "RELEASE-INFO.txt").read_text(encoding="utf-8"), re.M)
+    if not m:
+        return ["RELEASE-INFO.txt: no version line"]
+    expected = m.group(1)
+    page = (root / "docs" / "index.html").read_text(encoding="utf-8")
+    loci = {
+        "softwareVersion": r'"softwareVersion":\s*"(\d+\.\d+\.\d+)"',
+        "masthead REV": r"REV <b>(\d+\.\d+\.\d+)</b>",
+        "footer Rev": r'<span class="label">Rev</span><b>(\d+\.\d+\.\d+)</b>',
+    }
+    bad = []
+    for name, pat in loci.items():
+        v = re.search(pat, page)
+        val = v.group(1) if v else None
+        if val != expected:
+            bad.append(f"{name}={val!r} (expected {expected})")
+    if bad:
+        return ["site page version mismatch or missing pattern: " + "; ".join(bad)]
+    print(f"site page versions agree at {expected}")
+    return []
+
+
 def main() -> int:
     errors: list[str] = []
 
@@ -244,6 +268,7 @@ def main() -> int:
     errors.extend(check_forbidden_paths(tracked))
     errors.extend(check_escape_guard(tracked))
     errors.extend(check_version_agreement(ROOT))
+    errors.extend(check_site_version(ROOT, r"^Version:\s*(\d+\.\d+\.\d+)"))
 
     for path in ROOT.rglob("*"):
         rel_parts = path.relative_to(ROOT).parts
