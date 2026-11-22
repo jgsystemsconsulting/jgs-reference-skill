@@ -88,9 +88,14 @@ def classify(title: str, publisher: str, license_str: str) -> dict:
             return _verdict(excluded=True, reason=reason, tier=None)
 
     # 2) Public domain / US-gov → Tier 1 (maximum freedom).
-    if any(k in lic for k in PD_LICENSE) or any(k in hay for k in US_GOV):
+    #    Word-boundary match: "ministry" contains the substring "nist", which
+    #    falsely tiered OGL/UK-Ministry sources as US-gov Tier 1.
+    def _us_gov_hit() -> bool:
+        return any(re.search(rf"\b{re.escape(k)}\b", hay) for k in US_GOV)
+
+    if any(k in lic for k in PD_LICENSE) or _us_gov_hit():
         warn = []
-        if any(k in hay for k in ("nist", "ousd", "dod")):
+        if any(re.search(rf"\b{re.escape(k)}\b", hay) for k in ("nist", "ousd", "dod")):
             warn.append("US-gov work may quote third-party (e.g. ISO/IEC/IEEE) "
                         "text — reproduce none of it; verify before publishing.")
         return _verdict(tier=1, commercial_use=True, share_alike=False,
